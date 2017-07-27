@@ -26,7 +26,7 @@ $ npm i meethere --save
 ```
 
 ## Usage
-You can find the full API [here](http://meethere.ayazhafiz.com/docs)
+You can find the full API [here](http://meethere.ayazhafiz.com)
 
 Currently, two classes are available:
 
