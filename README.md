@@ -1,4 +1,4 @@
-# meetHere <img src="./meetHere.svg" style="height:1.5em"/>
+# meetHere <img src="https://cdn.rawgit.com/ayazhafiz/meetHere/master/meetHere.svg" height=50/>
 > A hyper-efficient library for position manipulation.
 
 meetHere is a componentization of a past endeavor of mine. It allows for quick,
@@ -30,7 +30,7 @@ Currently, two classes are available:
 #### `Position` - a blazing-fast, 2D-locations manipulations prototype.
 > For general purpose apps, like physics libraries or games.
 
-```
+```javascript
 import { Position } from 'meetHere';
 
 let Plane = new Position([[0, 1], [1.5, 3], [-9, 1.07]]);
@@ -47,7 +47,7 @@ To use non-super methods of `MeetHere`, you'll need a Google Maps API key, as
 described
 [here](https://github.com/googlemaps/google-maps-services-js#api-keys).
 
-```
+```javascript
 import { MeetHere } from 'meetHere';
 
 const user = [33.0952311, -96.8640427];
