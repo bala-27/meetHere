@@ -1,0 +1,46 @@
+{
+  "name": "meetHere",
+  "version": "0.1.0",
+  "description": "A hyper-efficient library for position manipulation",
+  "main": "dist/index.js",
+  "scripts": {
+    "bench": "./node_modules/.bin/ts-node ./benchmark/bench.ts",
+    "build": "./node_modules/.bin/tsc",
+    "docs": "npm run build && jsdoc -c jsdoc-conf.json",
+    "prepublish": "npm run build",
+    "posttest": "./node_modules/.bin/nyc report --reporter=lcov && open coverage/lcov-report/index.html",
+    "test": "./node_modules/.bin/nyc ./node_modules/.bin/mocha ./spec/*.spec.ts -t 5000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayazhafiz/meetHere.git"
+  },
+  "author": "hafiz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ayazhafiz/meetHere/issues"
+  },
+  "homepage": "https://github.com/ayazhafiz/meetHere#readme",
+  "dependencies": {
+    "@google/maps": "^0.4.3"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.1",
+    "@types/chai-as-promised": "^0.0.31",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^8.0.17",
+    "chai": "^4.1.0",
+    "chai-as-promised": "^7.1.1",
+    "minami": "^1.2.3",
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.3",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.4.2"
+  },
+  "nyc": {
+    "extension": [".ts"],
+    "exclude": ["spec/**/*.ts", "src/index.ts"],
+    "require": ["ts-node/register"],
+    "cache": false
+  }
+}

@@ -1,0 +1,9 @@
+.DS_Store
+/node_modules/
+/.nyc_output/
+/benchmark/
+/coverage/
+/doc/
+/spec/
+.editorconfig
+jsdoc-conf.json
