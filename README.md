@@ -27,7 +27,7 @@ You can find the full API [here]()
 
 Currently, two classes are available:
 
-#### `Position` - a blazing fast, 2D-locations manipulations prototype.
+#### `Position` - a blazing-fast, 2D-locations manipulations prototype.
 > For general purpose apps, like physics libraries or games.
 
 ```
