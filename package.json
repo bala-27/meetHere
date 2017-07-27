@@ -1,14 +1,14 @@
 {
-  "name": "meetHere",
-  "version": "0.1.0",
+  "name": "meethere",
+  "version": "0.1.1",
   "description": "A hyper-efficient library for position manipulation",
   "main": "dist/index.js",
   "scripts": {
     "bench": "./node_modules/.bin/ts-node ./benchmark/bench.ts",
     "build": "./node_modules/.bin/tsc",
     "docs": "npm run build && jsdoc -c jsdoc-conf.json",
-    "prepublish": "npm run build",
-    "posttest": "./node_modules/.bin/nyc report --reporter=lcov && open coverage/lcov-report/index.html",
+    "prepare": "npm run build",
+    "posttest": "./node_modules/.bin/nyc report --reporter=text-lcov | coveralls",
     "test": "./node_modules/.bin/nyc ./node_modules/.bin/mocha ./spec/*.spec.ts -t 5000"
   },
   "repository": {
@@ -31,6 +31,7 @@
     "@types/node": "^8.0.17",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
+    "coveralls": "^2.13.1",
     "minami": "^1.2.3",
     "mocha": "^3.4.2",
     "nyc": "^11.0.3",
@@ -38,9 +39,16 @@
     "typescript": "^2.4.2"
   },
   "nyc": {
-    "extension": [".ts"],
-    "exclude": ["spec/**/*.ts", "src/index.ts"],
-    "require": ["ts-node/register"],
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "spec/**/*.ts",
+      "src/index.ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
     "cache": false
   }
 }

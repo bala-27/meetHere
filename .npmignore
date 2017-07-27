@@ -1,9 +1,10 @@
 .DS_Store
-/node_modules/
-/.nyc_output/
-/benchmark/
-/coverage/
-/doc/
-/spec/
+node_modules
+.nyc_output
+benchmark
+coverage
+doc
+spec
 .editorconfig
+.travis.yml
 jsdoc-conf.json
