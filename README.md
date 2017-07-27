@@ -1,4 +1,4 @@
-# meetHere <img src="https://cdn.rawgit.com/ayazhafiz/meetHere/master/meetHere.svg" height=50/>
+# meetHere <img src="https://cdn.rawgit.com/ayazhafiz/meetHere/master/meetHere.svg" height=50 align="right"/>
 > A hyper-efficient library for position manipulation.
 
 meetHere is a componentization of a past endeavor of mine. It allows for quick,
