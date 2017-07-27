@@ -6,7 +6,7 @@
   "scripts": {
     "bench": "./node_modules/.bin/ts-node ./benchmark/bench.ts",
     "build": "./node_modules/.bin/tsc",
-    "docs": "npm run build && jsdoc -c jsdoc-conf.json",
+    "docs": "npm run build && jsdoc -c jsdoc-conf.json --verbose",
     "prepare": "npm run build",
     "posttest": "./node_modules/.bin/nyc report --reporter=text-lcov | coveralls",
     "test": "./node_modules/.bin/nyc ./node_modules/.bin/mocha ./spec/*.spec.ts -t 5000"
@@ -39,16 +39,9 @@
     "typescript": "^2.4.2"
   },
   "nyc": {
-    "extension": [
-      ".ts"
-    ],
-    "exclude": [
-      "spec/**/*.ts",
-      "src/index.ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
+    "extension": [".ts"],
+    "exclude": ["spec/**/*.ts", "src/index.ts"],
+    "require": ["ts-node/register"],
     "cache": false
   }
 }

@@ -4,18 +4,20 @@
     "dictionaries": ["jsdoc"]
   },
   "source": {
-    "include": ["README.md", "package.json", "dist/"]
+    "include": ["README.md", "package.json", "dist/"],
+    "includePattern": ".js$",
+    "excludePattern": "(node_modules/|docs)"
   },
   "plugins": ["plugins/markdown"],
   "opts": {
     "template": "node_modules/minami",
-    "destination": "./doc/",
+    "destination": "./docs/",
     "recurse": true,
     "verbose": true,
     "encoding": "utf8",
     "private": false,
-    "readme": "./README.md",
-    "package": "./package.json"
+    "readme": "README.md",
+    "package": "package.json"
   },
   "templates": {
     "cleverLinks": true,

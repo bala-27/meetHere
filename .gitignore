@@ -4,5 +4,5 @@
 /benchmark/
 /coverage/
 /dist/
-/doc/
+/docs/
 **/*.js

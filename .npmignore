@@ -3,7 +3,7 @@ node_modules
 .nyc_output
 benchmark
 coverage
-doc
+docs
 spec
 .editorconfig
 .travis.yml
