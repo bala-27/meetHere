@@ -11,17 +11,9 @@ describe('Position', () => {
         .that.is.an('Array')
         .that.deep.equals([[1, 2], [5, 6.6], [-7, 8.1]]);
       expect(test).to.have
-        .property('subsearch')
-        .that.is.an('boolean')
-        .that.deep.equals(false);
-      expect(test).to.have
-        .property('epsilon')
-        .that.is.an('number')
-        .that.deep.equals(1e-3);
-      expect(test).to.have
-        .property('bounds')
-        .that.is.an('number')
-        .that.deep.equals(10);
+        .property('options')
+        .that.has.property('epsilon')
+        .that.is.an('number');
     });
   });
   describe('center', () => {
@@ -33,13 +25,12 @@ describe('Position', () => {
       ]);
     });
     it('finds geometric center of points with oblique search', () => {
-      const test = new Position(
-        [[1, 2], [5, 6.6], [-7, 8.1], [3.1, -1.7]],
-        true
-      );
+      const test = new Position([[1, 2], [5, 6.6], [-7, 8.1], [3.1, -1.7]], {
+        subsearch: true
+      });
       expect(test.center).to.deep.equal([
-        1.0003032629391886,
-        2.000170873643946
+        0.9999063853985626,
+        2.001119760004479
       ]);
     });
     it('finds median of points', () => {

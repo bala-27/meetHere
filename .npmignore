@@ -8,3 +8,4 @@ spec
 .editorconfig
 .travis.yml
 jsdoc-conf.json
+build
