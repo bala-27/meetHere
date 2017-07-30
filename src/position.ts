@@ -32,7 +32,7 @@ export class Position {
    * Default geometric center options
    *
    * @constant
-   * @type {SearchOptions}
+   * @type {CenterOptions}
    * @default
    */
   static defaultCenterOptions: CenterOptions = {
@@ -48,12 +48,20 @@ export class Position {
    * @param {Array} locations 2D Array of points on a plane
    * @param {CenterOptions} [options=Position.defaultCenterOptions] Geometric center search options
    */
-  constructor(
-    locations: Array<Array<number>>,
-    options: CenterOptions = Position.defaultCenterOptions
-  ) {
+  constructor(locations: Array<Array<number>>, options: CenterOptions = {}) {
     this.locations = locations;
     this.options = { ...Position.defaultCenterOptions, ...options };
+  }
+
+  /**
+   * Returns the values of each key of the current Position object
+   *
+   * @function
+   * @private
+   * @return {Array} Values of each key of the Position
+   */
+  private get optionValues(): Array<number | boolean> {
+    return Object.getOwnPropertyNames(this.options).map(v => this.options[v]);
   }
 
   /**
@@ -127,16 +135,5 @@ export class Position {
       Center.geometric(this.locations, ...this.optionValues).score
     ];
     return (median - center) / median;
-  }
-
-  /**
-   * Returns the values of each key of the current Position object
-   *
-   * @function
-   * @private
-   * @return {Array} Values of each key of the Position
-   */
-  private get optionValues(): Array<number | boolean> {
-    return Object.getOwnPropertyNames(this.options).map(v => this.options[v]);
   }
 }

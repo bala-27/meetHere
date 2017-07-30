@@ -14,7 +14,7 @@ include:
 - [x] Determining relevant nearby locations
 - [x] Powerful async operations
 - [x] First-class TypeScript support
-- [ ] C++ bindings (coming soon)
+- [x] C++ bindings<sup>1 - See [#native-addons](#native-addons)</sup>
 - [ ] Time-minimum center (coming soon)
 
 ## Installation
@@ -26,8 +26,10 @@ $ yarn add meethere
 $ npm i meethere --save
 ```
 
+Or [build it yourself](#develop)!
+
 ## Usage
-You can find the full API [here](http://meethere.ayazhafiz.com).
+You can find the full API [here](http://meethere.js.org).
 
 Currently, two classes are available:
 
@@ -65,6 +67,37 @@ let Map = new MeetHere(
 );
 Map.meetHere // => [ 33.04371181611578, -96.81579457575877 ]
 Map.nearby().then(console.log) // => { results: [...] }
+```
+
+## Native Addons
+[C++ bindings](https://nodejs.org/api/addons.html) are a powerful way to
+increase the efficiency and speed of your Node.js app, especially when it comes
+to heavy computational or optimization problems. meetHere actively implements
+C++ bindings, and you can build developer- or production-ready versions of this
+module on the [native-addons branch](https://github.com/crystal-lang/crystal/tree/native-addons).
+There are, however, some caveats:
+* Simply calling C++ from javascript is pretty expensive, as it invokes the v8
+engine itself. This means:
+  * Calling the native version of a meetHere function will yield no performance
+  gain for most common usage (see [this issue](https://github.com/ayazhafiz/meetHere/issues/1)).
+  * Performance gains from C++ bindings will be noticed when optimizing for high
+  bounds and/or extreme precision on a Plane (for instance, bounds of x100 and
+  precision on the order of 1e-9).
+
+Note that these scenarios and the state of bindings will likely change in the
+near future as meetHere implements more powerful functions and optimization of
+native addons continues.
+
+## Develop
+```bash
+git clone git@github.com:ayazhafiz/meetHere.git && cd meetHere
+yarn # or, npm install
+
+# develop some features & test your code
+yarn test # or, npm test
+
+# compile
+yarn build # or, npm run build
 ```
 
 ## License
