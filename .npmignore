@@ -7,5 +7,4 @@ docs
 spec
 .editorconfig
 .travis.yml
-jsdoc-conf.json
-build
+.jsdoc.json
