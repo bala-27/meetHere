@@ -1,5 +1,8 @@
 import { Center } from './namespaces/center';
 import { CenterOptions } from './interfaces/index';
+import { arrayUtil } from './util/array';
+
+arrayUtil();
 
 /**
  * A prototype describing a set of points on a plane.
@@ -69,7 +72,7 @@ export class Position {
    *
    * @name Position#add
    * @function
-   * @param {Array} location 2D points on a plane
+   * @param {Array} location Point to add
    */
   add(location: Array<number>): void {
     this.locations.push(location);
@@ -80,20 +83,32 @@ export class Position {
    *
    * @name Position#remove
    * @function
-   * @param {Array} location 2D points on a plane
+   * @param {Array} location Point to remove
    * @return {Array|number} The removed location, or `-1` if no match is found
    */
   remove(location: Array<number>): Array<number> | number {
-    for (let i = 0; i < this.locations.length; i++) {
-      if (
-        this.locations[i][0] === location[0] &&
-        this.locations[i][1] === location[1]
-      ) {
-        this.locations.splice(i, 1);
-        return location;
-      }
+    const idx = this.locations.deepIndexOf(location);
+    if (idx > -1) {
+      return this.locations.splice(idx, 1)[0];
     }
-    return -1;
+    return idx;
+  }
+
+  /**
+   * Replaces an existing location.
+   *
+   * @name Position#adjust
+   * @function
+   * @param {Array} location Point to adjust
+   * @param {Array} to Value to adjust to
+   * @return {Array|number} The previous location, or `-1` if no match is found
+   */
+  adjust(location: Array<number>, to: Array<number>): Array<number> | number {
+    const idx = this.locations.deepIndexOf(location);
+    if (idx > -1) {
+      return this.locations.splice(idx, 1, to)[0];
+    }
+    return idx;
   }
 
   /**

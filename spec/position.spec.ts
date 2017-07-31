@@ -20,8 +20,8 @@ describe('Position', () => {
     it('finds geometric center of points', () => {
       const test = new Position([[1, 2], [5, 6.6], [-7, 8.1], [3.1, -1.7]]);
       expect(test.center).to.deep.equal([
-        0.9998479030807611,
-        2.000560357070879
+        1.254766251050433,
+        3.0485580098350864
       ]);
     });
     it('finds geometric center of points with oblique search', () => {
@@ -29,8 +29,8 @@ describe('Position', () => {
         subsearch: true
       });
       expect(test.center).to.deep.equal([
-        0.9999063853985626,
-        2.001119760004479
+        1.314528072925344,
+        3.4236568992025567
       ]);
     });
     it('finds median of points', () => {
@@ -39,7 +39,7 @@ describe('Position', () => {
     });
     it('calculates score', () => {
       const test = new Position([[1, 2], [5, 6.6], [-7, 8.1], [3.1, -1.7]]);
-      expect(test.score).to.equal(0.06535988277952172);
+      expect(test.score).to.equal(0.037811071697514395);
     });
   });
   describe('manipulation', () => {
@@ -48,7 +48,7 @@ describe('Position', () => {
       test.add([5, 3]);
       expect(test.locations).to.deep.equal([[1, 2], [5, 3]]);
     });
-    it('removes points from locations', () => {
+    it('removes points in locations', () => {
       const test = new Position([[1, 2], [5, 3]]);
       expect(test.remove([5, 3])).to.deep.equal([5, 3]);
       expect(test.locations).to.deep.equal([[1, 2]]);
@@ -56,6 +56,16 @@ describe('Position', () => {
     it('returns invalid index for removal of non-existent element', () => {
       const test = new Position([[1, 2]]);
       expect(test.remove([5, 3])).to.equal(-1);
+      expect(test.locations).to.deep.equal([[1, 2]]);
+    });
+    it('adjusts points in locations', () => {
+      const test = new Position([[1, 2], [5, 3]]);
+      expect(test.adjust([5, 3], [3, 5])).to.deep.equal([5, 3]);
+      expect(test.locations).to.deep.equal([[1, 2], [3, 5]]);
+    });
+    it('returns invalid index for adjustment of non-existent element', () => {
+      const test = new Position([[1, 2]]);
+      expect(test.adjust([5, 3], [3, 5])).to.equal(-1);
       expect(test.locations).to.deep.equal([[1, 2]]);
     });
   });
