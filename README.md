@@ -22,12 +22,13 @@ include:
 $ yarn add meethere
 ```
 
-## Build
 ```bash
 $ npm i meethere --save
 ```
 
 Or [build it yourself](#develop)!
+
+<sub>Node 4+ is actively supported.</sub>
 
 ## Usage
 You can find the full API [here](http://meethere.js.org).
