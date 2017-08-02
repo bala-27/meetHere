@@ -15,7 +15,8 @@ describe('MeetHere', () => {
           [33.0437115, -96.8157956],
           [33.0284505, -96.7546927]
         ],
-        process.env.GOOGLE_MAPS_TOKEN
+        process.env.GOOGLE_MAPS_TOKEN,
+        { epsilon: 1e-6 }
       );
       expect(test).to.have
         .property('locations')
@@ -41,7 +42,7 @@ describe('MeetHere', () => {
       );
       test.meetHere.should.deep.equal([33.04373236065685, -96.81583367822624]);
     });
-    it('gives distances from points to center', () => {
+    describe('gives distances from points to center', () => {
       const test = new MeetHere(
         [
           [33.0952311, -96.8640427],
@@ -50,13 +51,22 @@ describe('MeetHere', () => {
         ],
         process.env.GOOGLE_MAPS_TOKEN
       );
-      return test
-        .distance()
-        .should.eventually.be.an('Object')
-        .with.property('rows')
-        .that.is.an('Array');
+      it('works', () => {
+        return test
+          .distance({}, true)
+          .should.eventually.be.an('Object')
+          .with.property('rows')
+          .that.is.an('Array');
+      });
+      it('works with defaults', () => {
+        return test
+          .distance()
+          .should.eventually.be.an('Object')
+          .with.property('rows')
+          .that.is.an('Array');
+      });
     });
-    it('gives nearby places', () => {
+    describe('gives nearby places', () => {
       const test = new MeetHere(
         [
           [33.0952311, -96.8640427],
@@ -65,11 +75,20 @@ describe('MeetHere', () => {
         ],
         process.env.GOOGLE_MAPS_TOKEN
       );
-      return test
-        .nearby()
-        .should.eventually.be.an('Object')
-        .with.property('results')
-        .that.is.an('Array');
+      it('works', () => {
+        return test
+          .nearby({}, true)
+          .should.eventually.be.an('Object')
+          .with.property('results')
+          .that.is.an('Array');
+      });
+      it('works with defaults', () => {
+        return test
+          .nearby()
+          .should.eventually.be.an('Object')
+          .with.property('results')
+          .that.is.an('Array');
+      });
     });
     it('gives nearby roads', () => {
       const test = new MeetHere(
@@ -99,7 +118,7 @@ describe('MeetHere', () => {
         .should.eventually.be.an('Object')
         .with.property('snappedPoints');
     });
-    it('gives timezone at center', () => {
+    describe('gives timezone at center', () => {
       const test = new MeetHere(
         [
           [33.0952311, -96.8640427],
@@ -108,11 +127,20 @@ describe('MeetHere', () => {
         ],
         process.env.GOOGLE_MAPS_TOKEN
       );
-      test
-        .timezone()
-        .should.eventually.be.an('Object')
-        .with.property('timeZoneId')
-        .that.equals('America/Chicago');
+      it('works', () => {
+        return test
+          .timezone({}, true)
+          .should.eventually.be.an('Object')
+          .with.property('timeZoneId')
+          .that.equals('America/Chicago');
+      });
+      it('works with defaults', () => {
+        return test
+          .timezone()
+          .should.eventually.be.an('Object')
+          .with.property('timeZoneId')
+          .that.equals('America/Chicago');
+      });
     });
   });
   describe('errors', () => {

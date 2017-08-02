@@ -114,7 +114,7 @@ export class MeetHere extends Position {
    * @return {Array} The center of the MeetHere
    */
   private middle(geometric: boolean): Array<number> {
-    return geometric ? super.center : super.median;
+    return geometric ? this.center : this.median;
   }
 
   /**
@@ -126,7 +126,7 @@ export class MeetHere extends Position {
    * @return {Array} Geometric center of the Position
    */
   get meetHere(): Array<number> {
-    return super.center;
+    return this.center;
   }
 
   /**
