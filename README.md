@@ -10,7 +10,7 @@ plane, and comes with first-class Google Maps support for on-the-fly
 determination of locations relevant to you and your users. Prominent features
 include:
 - [x] High-precision geometric center calculations
-- [x] Positional center scoring
+- [x] Efficient path determination
 - [x] Determining relevant nearby locations
 - [x] Powerful async operations
 - [x] First-class TypeScript support
@@ -75,13 +75,14 @@ Map.nearby().then(console.log) // => { results: [...] }
 git clone git@github.com:ayazhafiz/meetHere.git && cd meetHere
 yarn # or, npm install
 
-# develop some features & test your code
-yarn test # or, npm test
+# develop some features
 
 # compile
 node-gyp configure
 node-gyp build
 yarn build # or, npm run build
+
+yarn test # or, npm test
 ```
 
 ## License

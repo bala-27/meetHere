@@ -49,7 +49,8 @@ export class MeetHere extends Position {
   static defaultCenterOptions: CenterOptions = {
     subsearch: true,
     epsilon: 1e-4,
-    bounds: 10
+    bounds: 10,
+    startIndex: 0
   };
 
   /**

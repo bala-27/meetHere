@@ -1,6 +1,6 @@
 {
   "name": "meethere",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "A hyper-efficient library for position manipulation",
   "main": "dist/index.js",
   "gypfile": true,
@@ -42,16 +42,9 @@
     "typescript": "^2.4.2"
   },
   "nyc": {
-    "extension": [
-      ".ts"
-    ],
-    "exclude": [
-      "spec/**/*.ts",
-      "src/index.ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
+    "extension": [".ts"],
+    "exclude": ["spec/**/*.ts", "src/index.ts"],
+    "require": ["ts-node/register"],
     "cache": false
   }
 }
