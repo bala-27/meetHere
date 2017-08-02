@@ -3,7 +3,7 @@
     {
       "target_name": "center",
       "sources": [ "./src/native/center.cc" ],
-      "cflags": [ "-std=c++11",  "-stdlib=libc++" ],
+      "cflags": [ "-std=c++11" ],
       "xcode_settings": {
         "OTHER_CFLAGS": [ "-std=c++11",  "-stdlib=libc++" ],
         "OTHER_LDFLAGS": [ "-stdlib=libc++" ],
@@ -13,7 +13,7 @@
     {
       "target_name": "tsp",
       "sources": [ "./src/native/tsp.cc" ],
-      "cflags": [ "-std=c++11",  "-stdlib=libc++" ],
+      "cflags": [ "-std=c++11" ],
       "xcode_settings": {
         "OTHER_CFLAGS": [ "-std=c++11",  "-stdlib=libc++" ],
         "OTHER_LDFLAGS": [ "-stdlib=libc++" ],
