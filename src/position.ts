@@ -1,8 +1,12 @@
 import { CenterOptions } from './interfaces/index';
 import { arrayUtil } from './util/array';
 import * as Bindings from 'bindings';
-const Center = Bindings('center');
+const CENTER = Bindings('center');
 const TSP = Bindings('tsp');
+const asciiMethod = {
+  tsp: 116,
+  naiveVsp: 110
+};
 
 arrayUtil();
 
@@ -46,43 +50,6 @@ export class Position {
     bounds: 10,
     startIndex: 0
   };
-
-  private cost(points: Array<Array<number>>, ...args: Array<number>);
-  /**
-   * Summates the Pythagorean distance between a center and an arbitrary amount
-   * of points as an efficient and powerful cost function.
-   *
-   * @function
-   * @param {Array} points 2D Array of points on a plane
-   * @param {number} x x coordinate of center
-   * @param {number} y y coordinate of center
-   * @return {number} Sum of Pythagorean distances from center to each point
-   */
-  private cost(points: Array<Array<number>>, x: number, y: number): number {
-    return points.reduce(
-      (sum, value) =>
-        sum + Math.sqrt((value[0] - x) ** 2 + (value[1] - y) ** 2),
-      0
-    );
-  }
-
-  /**
-   * Finds the center of mass of an arbitrary amount of points using standard
-   * median.
-   *
-   * @function
-   * @param {Array} points 2D Array of points on a plane
-   * @return {object} Center of mass
-   */
-  private mass(
-    points: Array<Array<number>>
-  ): { center: Array<number>; score: number } {
-    const center = [
-      points.reduce((sum, value) => sum + value[0], 0) / points.length,
-      points.reduce((sum, value) => sum + value[1], 0) / points.length
-    ];
-    return { center: center, score: this.cost(points, ...center) };
-  }
 
   /**
    * Creates a Position on a plane described by a set of locations.
@@ -150,7 +117,7 @@ export class Position {
    * @return {Array} Geometric center of the Position
    */
   get center(): Array<number> {
-    return Center.geometric(
+    return CENTER.geometric(
       this.locations,
       this.options.subsearch,
       this.options.epsilon,
@@ -167,20 +134,40 @@ export class Position {
    * @return {Array} Geometric center of the Position
    */
   get median(): Array<number> {
-    return this.mass(this.locations).center;
+    return CENTER.mass(this.locations).center;
   }
 
   /**
    * Returns the index order of the least-costly path between all locations on
-   * the plane by solving the TSP.
+   * the plane through a rudimentary solution of the TSP (~80 point efficiency).
    *
    * @name Position#path
+   * @TODO More involved TSP solution (figure out or-tools bindings)
    * @function
    * @return {Array} Order of indeces of the locations on the plane that gives
    * the shortest path
    */
   get path(): Array<number> {
-    return TSP.tsp(this.locations, this.options.startIndex);
+    return TSP.tsp(this.locations, this.options.startIndex, asciiMethod['tsp']);
+  }
+
+  /**
+   * Returns the index order of the least-costly manhattan-style drive between
+   * all locations on the plane through a naive solution of the VRP (~80 point
+   * efficiency).
+   *
+   * @name Position#naiveDrive
+   * @TODO More involved VRP solution (figure out or-tools bindings)
+   * @function
+   * @return {Array} Order of indeces of the locations on the plane that gives
+   * the shortest manhattan path
+   */
+  get naiveDrive() {
+    return TSP.tsp(
+      this.locations,
+      this.options.startIndex,
+      asciiMethod['naiveVsp']
+    );
   }
 
   /**
@@ -193,8 +180,8 @@ export class Position {
    */
   get score(): number {
     const [median, center] = [
-      this.mass(this.locations).score,
-      Center.geometric(
+      CENTER.mass(this.locations).score,
+      CENTER.geometric(
         this.locations,
         this.options.subsearch,
         this.options.epsilon,
@@ -204,3 +191,5 @@ export class Position {
     return (median - center) / median;
   }
 }
+
+export { Bindings };

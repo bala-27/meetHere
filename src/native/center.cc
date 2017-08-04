@@ -6,17 +6,18 @@ namespace Center {
  * Finds the center of mass of an arbitrary amount of points using standard
  * median.
  */
-std::array<double, 2> centerOfMass(const double points[][2],
-                                   const unsigned int &length) {
-  double x = 0;
-  double y = 0;
+double *centerOfMass(const double points[][2], const unsigned int &length) {
+  double *center = new double[2]();
 
   for (unsigned int i = 0; i < length; ++i) {
-    x += points[i][0];
-    y += points[i][1];
+    center[0] += points[i][0];
+    center[1] += points[i][1];
   }
 
-  return {{x / length, y / length}};
+  center[0] = center[0] / length;
+  center[1] = center[1] / length;
+
+  return center;
 }
 
 /**
@@ -57,13 +58,13 @@ void geometric(const v8::FunctionCallbackInfo<v8::Value> &args) {
   // pass locations to C++ array
   double points[length][2];
   for (unsigned int i = 0; i < length; ++i) {
-    v8::Local<v8::Array> element = v8::Local<v8::Array>::Cast(_points->Get(i));
-    points[i][0] = element->Get(0)->NumberValue();
-    points[i][1] = element->Get(1)->NumberValue();
+    v8::Local<v8::Array> _element = v8::Local<v8::Array>::Cast(_points->Get(i));
+    points[i][0] = _element->Get(0)->NumberValue();
+    points[i][1] = _element->Get(1)->NumberValue();
   }
 
   // setup initial values
-  std::array<double, 2> center = centerOfMass(points, length);
+  double *center = centerOfMass(points, length);
   double score = cost(points, length, center[0], center[1]);
   double step = score / length * bounds;
 
@@ -71,8 +72,8 @@ void geometric(const v8::FunctionCallbackInfo<v8::Value> &args) {
   while (step > epsilon) {
     bool improved = false;
     for (int i = 0; i < 8; subsearch ? ++i : (i += 2)) {
-      const double _x = center[0] + step * delta_x[i];
-      const double _y = center[1] + step * delta_y[i];
+      const double _x = center[0] + step * DELTA_X[i];
+      const double _y = center[1] + step * DELTA_Y[i];
       const double _score = cost(points, length, _x, _y);
 
       if (_score < score) {
@@ -103,8 +104,46 @@ void geometric(const v8::FunctionCallbackInfo<v8::Value> &args) {
   args.GetReturnValue().Set(result);
 }
 
+/**
+ * Wrapper for centerOfMass function
+ */
+void mass(const v8::FunctionCallbackInfo<v8::Value> &args) {
+  v8::Isolate *isolate = args.GetIsolate();
+
+  // get args
+  v8::Local<v8::Array> _points = v8::Local<v8::Array>::Cast(args[0]);
+
+  const unsigned int length = _points->Length();
+
+  // pass locations to C++ array
+  double points[length][2];
+  for (unsigned int i = 0; i < length; ++i) {
+    v8::Local<v8::Array> element = v8::Local<v8::Array>::Cast(_points->Get(i));
+    points[i][0] = element->Get(0)->NumberValue();
+    points[i][1] = element->Get(1)->NumberValue();
+  }
+
+  // get results
+  const double *center = centerOfMass(points, length);
+  const double score = cost(points, length, center[0], center[1]);
+
+  // convert center back to JS Array
+  v8::Local<v8::Array> _center = v8::Array::New(isolate);
+  _center->Set(0, v8::Number::New(isolate, center[0]));
+  _center->Set(1, v8::Number::New(isolate, center[1]));
+
+  // create object to hold center and score
+  v8::Local<v8::Object> result = v8::Object::New(isolate);
+  result->Set(v8::String::NewFromUtf8(isolate, "center"), _center);
+  result->Set(v8::String::NewFromUtf8(isolate, "score"),
+              v8::Number::New(isolate, score));
+
+  args.GetReturnValue().Set(result);
+}
+
 void init(v8::Local<v8::Object> exports) {
   NODE_SET_METHOD(exports, "geometric", geometric);
+  NODE_SET_METHOD(exports, "mass", mass);
 }
 
 NODE_MODULE(addon, init);

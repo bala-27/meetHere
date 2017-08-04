@@ -42,7 +42,7 @@ describe('MeetHere', () => {
       );
       test.meetHere.should.deep.equal([33.04373236065685, -96.81583367822624]);
     });
-    describe('gives distances from points to center', () => {
+    describe('gives distances to center', () => {
       const test = new MeetHere(
         [
           [33.0952311, -96.8640427],
@@ -52,18 +52,24 @@ describe('MeetHere', () => {
         process.env.GOOGLE_MAPS_TOKEN
       );
       it('works', () => {
-        return test
-          .distance({}, true)
-          .should.eventually.be.an('Object')
-          .with.property('rows')
-          .that.is.an('Array');
+        test
+          .distance()
+          .should.have.property('distances')
+          .that.deep.equals([
+            7.278172111233778,
+            0.0042400211832780785,
+            5.947347061156415
+          ]);
       });
       it('works with defaults', () => {
-        return test
-          .distance()
-          .should.eventually.be.an('Object')
-          .with.property('rows')
-          .that.is.an('Array');
+        test
+          .distance('mi', true)
+          .should.have.property('distances')
+          .that.deep.equals([
+            4.522446482065818,
+            0.0026346270177650343,
+            3.695510134039942
+          ]);
       });
     });
     describe('gives nearby places', () => {
@@ -142,6 +148,30 @@ describe('MeetHere', () => {
           .that.equals('America/Chicago');
       });
     });
+    describe('gives distances from points to center', () => {
+      const test = new MeetHere(
+        [
+          [33.0952311, -96.8640427],
+          [33.0437115, -96.8157956],
+          [33.0284505, -96.7546927]
+        ],
+        process.env.GOOGLE_MAPS_TOKEN
+      );
+      it('works', () => {
+        return test
+          .travel({}, true)
+          .should.eventually.be.an('Object')
+          .with.property('rows')
+          .that.is.an('Array');
+      });
+      it('works with defaults', () => {
+        return test
+          .travel()
+          .should.eventually.be.an('Object')
+          .with.property('rows')
+          .that.is.an('Array');
+      });
+    });
   });
   describe('errors', () => {
     it('returns error for invalid token', () => {
@@ -168,7 +198,7 @@ describe('MeetHere', () => {
       );
 
       return test
-        .distance({ departure_time: -100 })
+        .travel({ departure_time: -100 })
         .should.eventually.be.an('Object')
         .with.property('status')
         .that.equals('INVALID_REQUEST');

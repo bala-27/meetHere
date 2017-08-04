@@ -1,5 +1,5 @@
 # meetHere <img src="https://cdn.rawgit.com/ayazhafiz/meetHere/master/meetHere.svg" height=220 align="right"/>
-> A hyper-efficient library for position manipulation.
+> A hyper-efficient JavaScript library for handling locations.
 
 [![Build Status](https://travis-ci.org/ayazhafiz/meetHere.svg?branch=master)](https://travis-ci.org/ayazhafiz/meetHere)
 [![Coverage Status](https://coveralls.io/repos/github/ayazhafiz/meetHere/badge.svg?branch=master)](https://coveralls.io/github/ayazhafiz/meetHere?branch=master)
@@ -10,7 +10,7 @@ plane, and comes with first-class Google Maps support for on-the-fly
 determination of locations relevant to you and your users. Prominent features
 include:
 - [x] High-precision geometric center calculations
-- [x] Efficient path determination
+- [x] Rapid path determination
 - [x] Determining relevant nearby locations
 - [x] Powerful async operations
 - [x] First-class TypeScript support
@@ -28,7 +28,7 @@ $ npm i meethere --save
 
 Or [build it yourself](#develop)!
 
-<sub>Node 4+ is actively supported.</sub>
+<sub>[Supported Node versions]('#support')</sub>
 
 ## Usage
 You can find the full API [here](http://meethere.js.org).
@@ -71,6 +71,40 @@ Map.meetHere // => [ 33.04371181611578, -96.81579457575877 ]
 Map.nearby().then(console.log) // => { results: [...] }
 ```
 
+### Extensions
+
+Extending any class in meetHere for your specific use case is trivial:
+
+```javascript
+import { Position, MeetHere } from 'meethere';
+
+class Plane3D extends Position {
+  constructor(args) {
+    super(...args);
+  }
+
+  get flightPath() {
+    return this.dimensionalize(
+      super.vrp(this.locations.map(v => [v[0], v[1]])),
+      super.vrp(this.locations.map(v => [v[0], v[2]])),
+      super.vrp(this.locations.map(v => [v[1], v[2]]))
+    );
+  }
+}
+
+class RideHere extends MeetHere {
+  constructor(args) {
+    super(...args);
+  }
+
+  get rides() {
+    return this.locations.map(
+      start => `${RIDE_API}?start=${start}&end=${this.center}&token=${RIDE_TKN}`
+    );
+  }
+}
+```
+
 ## Develop
 ```bash
 git clone git@github.com:ayazhafiz/meetHere.git && cd meetHere
@@ -85,6 +119,22 @@ yarn build # or, npm run build
 
 yarn test # or, npm test
 ```
+
+## Support
+meetHere actively supports Node versions 4 and higher. More specifically:
+- 4.x.x (LTS/argon)
+- 5.x.x
+- 6.x.x (LTS/boron)
+- 7.x.x
+- 8.x.x
+- 9.x.x (nightly)
+  * Note that failures in nightly versions are most likely a problem with Node,
+  not with this package.
+
+meetHere may work with Node 0.x.x or io.js (1 - 3.x.x), but since these strains
+are not supported by Node anymore, this library does not target build
+compatibility with them. The sensitivity of this library's native bindings and
+ES targeting may make it completely inoperable with anything below LTS/argon.
 
 ## License
 MIT, &copy; hafiz 2017

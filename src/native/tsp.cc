@@ -6,6 +6,22 @@
 namespace TSP {
 
 /**
+ * Summates the Manhattan distance between a center and an arbitrary amount
+ * of points as an efficient and powerful cost function for VRP.
+ *
+ * NOTE Effictive mostly only in Manhattan-style planes.
+ */
+double manhattanCost(const double points[][2], const unsigned int &length,
+                     const double &x, const double &y) {
+  double cost = 0;
+
+  for (unsigned int i = 0; i < length; ++i) {
+    cost += std::abs(points[i][0] - x) + std::abs(points[i][1] - y);
+  }
+  return cost;
+}
+
+/**
  * Summates the Pythagorean distance between a center and an arbitrary amount
  * of points as an efficient and powerful cost function.
  */
@@ -52,6 +68,8 @@ void tsp(const v8::FunctionCallbackInfo<v8::Value> &args) {
   // get args
   v8::Local<v8::Array> _points = v8::Local<v8::Array>::Cast(args[0]);
   unsigned int city = args[1]->Uint32Value();
+  const char method = (char)(args[2]->Uint32Value());
+
   const unsigned int len = _points->Length();
 
   // setup visited-cities and cost matrix
@@ -72,7 +90,11 @@ void tsp(const v8::FunctionCallbackInfo<v8::Value> &args) {
           v8::Local<v8::Array>::Cast(_points->Get(i))->Get(0)->NumberValue(),
           v8::Local<v8::Array>::Cast(_points->Get(i))->Get(1)->NumberValue()};
 
-      matrix[i][j] = cost(to, 1, from[0], from[1]);
+      if (method == 't') {
+        matrix[i][j] = cost(to, 1, from[0], from[1]);
+      } else if (method == 'n') {
+        matrix[i][j] = manhattanCost(to, 1, from[0], from[1]);
+      }
     }
   }
 

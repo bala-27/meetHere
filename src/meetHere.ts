@@ -1,4 +1,4 @@
-import { Position } from './position';
+import { Bindings, Position } from './position';
 import { createClient } from '@google/maps';
 import {
   GoogleMapsClient,
@@ -7,6 +7,13 @@ import {
   PlacesOptions,
   TimeZoneOptions
 } from './interfaces/index';
+const CARTESIAN = Bindings('cartesian');
+const KM = 'km';
+const MI = 'mi';
+const asciiDistanceUnits = {
+  km: 107,
+  mi: 109
+};
 
 /**
  * A prototype describing a set of points on a map, with first-class Google Maps
@@ -99,9 +106,9 @@ export class MeetHere extends Position {
   constructor(
     locations: Array<Array<number>>,
     token: string,
-    options: CenterOptions = MeetHere.defaultCenterOptions
+    options: CenterOptions = {}
   ) {
-    super(locations, options);
+    super(locations, { ...MeetHere.defaultCenterOptions, ...options });
     this.client = createClient({ key: token, Promise: Promise });
   }
 
@@ -130,30 +137,20 @@ export class MeetHere extends Position {
   }
 
   /**
-   * Returns a distance matrix from each location to the center of the MeetHere.
+   * Returns a sole-distance matrix of the MeetHere using native computation
    *
    * @name MeetHere#distance
-   * @see https://googlemaps.github.io/google-maps-services-js/docs/GoogleMapsClient.html#distanceMatrix
    * @function
-   * @param {DistanceOptions} [options=MeetHere.defaultDistanceOptions] Options
-   * to apply to distance matrix request, can be any of @see
+   * @param {string} [units='km'] Units of distance to use, can be 'km' or 'mi'
    * @param {boolean} [geometric=true] Whether to use geometric or median center
-   * @return {Promise} A Promise that will yield the distance matrix or an error
+   * @return {Array} Array of distances from each location to the center
    */
-  distance(
-    options: DistanceOptions = {},
-    geometric: boolean = true
-  ): Promise<object> {
-    options['origins'] = this.locations;
-    options['destinations'] = [this.middle(geometric)];
-    return this.client
-      .distanceMatrix({
-        ...MeetHere.defaultDistanceOptions,
-        ...options
-      })
-      .asPromise()
-      .then(response => response.json)
-      .catch(error => error.json);
+  distance(units: string = KM, geometric: boolean = true): Array<number> {
+    return CARTESIAN.distance(
+      this.locations,
+      this.middle(geometric),
+      asciiDistanceUnits[units]
+    );
   }
 
   /**
@@ -216,6 +213,34 @@ export class MeetHere extends Position {
     options['timestamp'] = options['timestamp'] || ~~(Date.now() / 1000);
     return this.client
       .timezone(options)
+      .asPromise()
+      .then(response => response.json)
+      .catch(error => error.json);
+  }
+
+  /**
+   * Returns a matrix from each location to the center of the MeetHere with
+   * distance and time fields.
+   *
+   * @name MeetHere#travel
+   * @see https://googlemaps.github.io/google-maps-services-js/docs/GoogleMapsClient.html#distanceMatrix
+   * @function
+   * @param {DistanceOptions} [options=MeetHere.defaultDistanceOptions] Options
+   * to apply to distance matrix request, can be any of @see
+   * @param {boolean} [geometric=true] Whether to use geometric or median center
+   * @return {Promise} A Promise that will yield the distance matrix or an error
+   */
+  travel(
+    options: DistanceOptions = {},
+    geometric: boolean = true
+  ): Promise<object> {
+    options['origins'] = this.locations;
+    options['destinations'] = [this.middle(geometric)];
+    return this.client
+      .distanceMatrix({
+        ...MeetHere.defaultDistanceOptions,
+        ...options
+      })
       .asPromise()
       .then(response => response.json)
       .catch(error => error.json);
