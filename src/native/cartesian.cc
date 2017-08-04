@@ -32,20 +32,20 @@ void distance(const v8::FunctionCallbackInfo<v8::Value> &args) {
   v8::Local<v8::Array> distances = v8::Array::New(isolate);
   for (unsigned int i = 0; i < length; ++i) {
     // latitudes
-    const double φ1 = toRadians(center[0]);
-    const double φ2 = toRadians(points[i][0]);
+    const double lat1 = toRadians(center[0]);
+    const double lat2 = toRadians(points[i][0]);
 
     // dLat, dLng
-    const double Δφ = toRadians(points[i][0] - center[0]);
-    const double Δλ = toRadians(points[i][1] - center[1]);
+    const double dlat = toRadians(points[i][0] - center[0]);
+    const double dlng = toRadians(points[i][1] - center[1]);
 
     // Haversine formula:
     // a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
     // c = 2 ⋅ atan2( √a, √(1−a) )
     // d = R ⋅ c
     const double a =
-        std::sin(Δφ / 2) * std::sin(Δφ / 2) +
-        std::cos(φ1) * std::cos(φ2) * std::sin(Δλ / 2) * std::sin(Δλ / 2);
+        std::sin(dlat / 2) * std::sin(dlat / 2) +
+        std::cos(lat1) * std::cos(lat2) * std::sin(dlng / 2) * std::sin(dlng / 2);
     const double c = 2 * std::atan2(sqrt(a), std::sqrt(1 - a));
     const double d =
         RADIUS_METERS * c * (units == 'm' ? METERS_TO_MILES : METERS_TO_KM);
