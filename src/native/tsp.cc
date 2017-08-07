@@ -6,43 +6,11 @@
 namespace TSP {
 
 /**
- * Summates the Manhattan distance between a center and an arbitrary amount
- * of points as an efficient and powerful cost function for VRP.
- *
- * NOTE Effictive mostly only in Manhattan-style planes.
- */
-double manhattanCost(const double points[][2], const unsigned int &length,
-                     const double &x, const double &y) {
-  double cost = 0;
-
-  for (unsigned int i = 0; i < length; ++i) {
-    cost += std::abs(points[i][0] - x) + std::abs(points[i][1] - y);
-  }
-  return cost;
-}
-
-/**
- * Summates the Pythagorean distance between a center and an arbitrary amount
- * of points as an efficient and powerful cost function.
- */
-double cost(const double points[][2], const unsigned int &length,
-            const double &x, const double &y) {
-  double cost = 0;
-
-  for (unsigned int i = 0; i < length; ++i) {
-    cost += std::sqrt(std::pow((points[i][0] - x), 2) +
-                      std::pow((points[i][1] - y), 2));
-  }
-  return cost;
-}
-
-/**
  * Finds the point nearest the current node (city) with Branch and Bound on the
  * cost matrix.
  */
-short branchBound(const std::vector<std::vector<double>> &matrix,
-                  const unsigned int &len, const unsigned int &city,
-                  std::vector<bool> &visited) {
+short branchBound(double **matrix, const unsigned int &len,
+                  const unsigned int &city, const bool *visited) {
   short nearest = -1;
   unsigned int min = std::numeric_limits<int>::max();
   for (unsigned int to = 0; to < len; ++to) {
@@ -55,6 +23,50 @@ short branchBound(const std::vector<std::vector<double>> &matrix,
     }
   }
   return nearest;
+}
+
+/**
+ * A std::any_of for dynamic arrays
+ */
+template <typename T>
+bool contains(const T *arr, const unsigned int &len, const T &value) {
+  for (unsigned int i = 0; i < len; ++i) {
+    if (arr[i] == value) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Summates the Pythagorean distance between a center and an arbitrary amount
+ * of points as an efficient and powerful cost function.
+ */
+double cost(double **points, const unsigned char &length, const double &x,
+            const double &y) {
+  double cost = 0;
+
+  for (unsigned int i = 0; i < length; ++i) {
+    cost += std::sqrt(std::pow((points[i][0] - x), 2) +
+                      std::pow((points[i][1] - y), 2));
+  }
+  return cost;
+}
+
+/**
+ * Summates the Manhattan distance between a center and an arbitrary amount
+ * of points as an efficient and powerful cost function for VRP.
+ *
+ * NOTE Effictive mostly only in Manhattan-style planes.
+ */
+double manhattanCost(double **points, const unsigned char &length,
+                     const double &x, const double &y) {
+  double cost = 0;
+
+  for (unsigned int i = 0; i < length; ++i) {
+    cost += std::abs(points[i][0] - x) + std::abs(points[i][1] - y);
+  }
+  return cost;
 }
 
 /**
@@ -73,27 +85,33 @@ void tsp(const v8::FunctionCallbackInfo<v8::Value> &args) {
   const unsigned int len = _points->Length();
 
   // setup visited-cities and cost matrix
-  std::vector<bool> visited(len, false);
-  std::vector<std::vector<double>> matrix;
-  matrix.resize(len);
-  for (auto &i : matrix)
-    i.resize(len);
+  // std::vector<bool> visited(len, false);
+  bool *visited = new bool[len]();
+
+  double **matrix = new double *[len];
+  for (unsigned int i = 0; i < len; ++i) {
+    matrix[i] = new double[len];
+  }
+
+  const unsigned char matrixLen = 1;
 
   // fill cost matrix
   for (unsigned int i = 0; i < len; ++i) {
     for (unsigned int j = 0; j < len; ++j) {
-      double to[1][2] = {
-          {v8::Local<v8::Array>::Cast(_points->Get(j))->Get(0)->NumberValue(),
-           v8::Local<v8::Array>::Cast(_points->Get(j))->Get(1)->NumberValue()}};
-
-      double from[2] = {
-          v8::Local<v8::Array>::Cast(_points->Get(i))->Get(0)->NumberValue(),
-          v8::Local<v8::Array>::Cast(_points->Get(i))->Get(1)->NumberValue()};
+      double **to = new double *[2];
+      to[0] = new double[2];
+      double from[2];
+      for (unsigned char k = 0; k < 2; ++k) {
+        to[0][k] =
+            v8::Local<v8::Array>::Cast(_points->Get(j))->Get(k)->NumberValue();
+        from[k] =
+            v8::Local<v8::Array>::Cast(_points->Get(i))->Get(k)->NumberValue();
+      }
 
       if (method == 't') {
-        matrix[i][j] = cost(to, 1, from[0], from[1]);
+        matrix[i][j] = cost(to, matrixLen, from[0], from[1]);
       } else if (method == 'n') {
-        matrix[i][j] = manhattanCost(to, 1, from[0], from[1]);
+        matrix[i][j] = manhattanCost(to, matrixLen, from[0], from[1]);
       }
     }
   }
@@ -104,8 +122,7 @@ void tsp(const v8::FunctionCallbackInfo<v8::Value> &args) {
 
   // calculate nearest node (city) and add it to order matrix until every node
   // has been visited
-  while (std::any_of(visited.begin(), visited.end(),
-                     [](const bool &p) { return p == false; })) {
+  while (contains(visited, len, false)) {
     visited[city] = true;
     const short nearest = branchBound(matrix, len, city, visited);
     if (nearest == -1) {
@@ -115,8 +132,14 @@ void tsp(const v8::FunctionCallbackInfo<v8::Value> &args) {
     city = nearest;
   }
 
+  // free memory
+  for (unsigned int i = 0; i < len; ++i) {
+    delete[] matrix[i];
+  }
+  delete[] matrix;
+
   args.GetReturnValue().Set(order);
-}
+} // namespace TSP
 
 void init(v8::Local<v8::Object> exports) {
   NODE_SET_METHOD(exports, "tsp", tsp);

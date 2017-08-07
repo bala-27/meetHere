@@ -2,8 +2,31 @@
 
 namespace Cartesian {
 
+/**
+ * Returns the radian measurement of a degree Value
+ */
 double toRadians(const double &degrees) { return degrees / 180 * PI; }
 
+/**
+ * Returns distance between two Lat/Lng points using Haversine formula:
+ * a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
+ * c = 2 ⋅ atan2( √a, √(1−a) )
+ * d = R ⋅ c
+ */
+double haversine(const double &lat1, const double &lat2, const double &dlat,
+                 const double &dlng) {
+  const double a =
+      std::sin(dlat / 2) * std::sin(dlat / 2) +
+      std::cos(lat1) * std::cos(lat2) * std::sin(dlng / 2) * std::sin(dlng / 2);
+  const double c = 2 * std::atan2(sqrt(a), std::sqrt(1 - a));
+  const double d = RADIUS_METERS * c;
+
+  return d;
+}
+
+/**
+ * Calculates the Cartesian (Earthly) distance between two Lat/Lng points
+ */
 void distance(const v8::FunctionCallbackInfo<v8::Value> &args) {
   v8::Isolate *isolate = args.GetIsolate();
 
@@ -39,18 +62,11 @@ void distance(const v8::FunctionCallbackInfo<v8::Value> &args) {
     const double dlat = toRadians(points[i][0] - center[0]);
     const double dlng = toRadians(points[i][1] - center[1]);
 
-    // Haversine formula:
-    // a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
-    // c = 2 ⋅ atan2( √a, √(1−a) )
-    // d = R ⋅ c
-    const double a =
-        std::sin(dlat / 2) * std::sin(dlat / 2) +
-        std::cos(lat1) * std::cos(lat2) * std::sin(dlng / 2) * std::sin(dlng / 2);
-    const double c = 2 * std::atan2(sqrt(a), std::sqrt(1 - a));
-    const double d =
-        RADIUS_METERS * c * (units == 'm' ? METERS_TO_MILES : METERS_TO_KM);
+    const double distance =
+        haversine(lat1, lat2, dlat, dlng) *
+        (units == 'm' ? METERS_TO_MILES : METERS_TO_KM); // transform units
 
-    distances->Set(i, v8::Number::New(isolate, d));
+    distances->Set(i, v8::Number::New(isolate, distance));
   }
 
   // create object to hold results

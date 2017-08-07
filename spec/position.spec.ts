@@ -73,6 +73,15 @@ describe('Position', () => {
       ]);
       expect(test.naiveDrive).to.deep.equal([0, 2, 7, 1, 4, 5, 9, 3, 6, 8, 10]);
     });
+    it('calculates polynomial', () => {
+      const test = new Position([[1, 2], [5, 6.6], [-7, 8.1], [3.1, -1.7]]);
+      expect(test.polynomial).to.deep.equal([
+        6.4055112254647835,
+        -4.836808295491288,
+        0.295336035013277,
+        0.13596103501327805
+      ]);
+    });
   });
   describe('manipulation', () => {
     it('adds points to locations', () => {

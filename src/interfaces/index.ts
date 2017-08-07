@@ -35,6 +35,7 @@ export interface CenterOptions {
   epsilon?: number;
   bounds?: number;
   startIndex?: number;
+  degree?: number;
 }
 
 /**

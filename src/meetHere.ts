@@ -57,7 +57,8 @@ export class MeetHere extends Position {
     subsearch: true,
     epsilon: 1e-4,
     bounds: 10,
-    startIndex: 0
+    startIndex: 0,
+    degree: null
   };
 
   /**
@@ -143,9 +144,12 @@ export class MeetHere extends Position {
    * @function
    * @param {string} [units='km'] Units of distance to use, can be 'km' or 'mi'
    * @param {boolean} [geometric=true] Whether to use geometric or median center
-   * @return {Array} Array of distances from each location to the center
+   * @return {Promise} A Promise that will yield distances or an error
    */
-  distance(units: string = KM, geometric: boolean = true): Array<number> {
+  async distance(
+    units: string = KM,
+    geometric: boolean = true
+  ): Promise<object> {
     return CARTESIAN.distance(
       this.locations,
       this.middle(geometric),
@@ -164,7 +168,7 @@ export class MeetHere extends Position {
    * @param {boolean} [geometric=true] Whether to use geometric or median center
    * @return {Promise} A Promise that will yield nearby places or an error
    */
-  nearby(
+  async nearby(
     options: PlacesOptions = {},
     geometric: boolean = true
   ): Promise<object> {
@@ -184,7 +188,7 @@ export class MeetHere extends Position {
    * @param {boolean} [geometric=true] Whether to use geometric or median center
    * @return {Promise} A Promise that will yield nearby roads or an error
    */
-  roads(geometric: boolean = true): Promise<object> {
+  async roads(geometric: boolean = true): Promise<object> {
     const center = this.middle(geometric);
     return this.client
       .nearestRoads({ points: [center] })
@@ -204,7 +208,7 @@ export class MeetHere extends Position {
    * @param {boolean} [geometric=true] Whether to use geometric or median center
    * @return {Promise} A Promise that will yield time offset data or an error
    */
-  timezone(
+  async timezone(
     options: TimeZoneOptions = {},
     geometric: boolean = true
   ): Promise<object> {
@@ -230,7 +234,7 @@ export class MeetHere extends Position {
    * @param {boolean} [geometric=true] Whether to use geometric or median center
    * @return {Promise} A Promise that will yield the distance matrix or an error
    */
-  travel(
+  async travel(
     options: DistanceOptions = {},
     geometric: boolean = true
   ): Promise<object> {

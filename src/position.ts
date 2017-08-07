@@ -2,6 +2,7 @@ import { CenterOptions } from './interfaces/index';
 import { arrayUtil } from './util/array';
 import * as Bindings from 'bindings';
 const CENTER = Bindings('center');
+const POLYNOMIAL = Bindings('polynomial');
 const TSP = Bindings('tsp');
 const asciiMethod = {
   tsp: 116,
@@ -48,7 +49,8 @@ export class Position {
     subsearch: false,
     epsilon: 1e-3,
     bounds: 10,
-    startIndex: 0
+    startIndex: 0,
+    degree: null
   };
 
   /**
@@ -149,6 +151,23 @@ export class Position {
    */
   get path(): Array<number> {
     return TSP.tsp(this.locations, this.options.startIndex, asciiMethod['tsp']);
+  }
+
+  /**
+   * Returns the coefficients of a n-degree polynomial best-fit to the locations
+   * on the plane. Degree is specified during class instantiation, and is auto-
+   * calculated by default.
+   *
+   * @name Position#polynomial
+   * @function
+   * @return {Array} an n-length array of the coefficients of a best-fit,
+   * n-degree polynomial, where each index corresponds to its degree. E.g.
+   * ```
+   * [1, 4, 9] // => 1(x^0) + 4(x^1) + 9(x^2)
+   * ```
+   */
+  get polynomial(): Array<number> {
+    return POLYNOMIAL.bestFit(this.locations, this.options.degree);
   }
 
   /**

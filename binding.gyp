@@ -8,7 +8,7 @@
         "OTHER_CFLAGS": [ "-std=c++11",  "-stdlib=libc++" ],
         "OTHER_LDFLAGS": [ "-stdlib=libc++" ],
         "MACOSX_DEPLOYMENT_TARGET": "10.7"
-      },
+      }
     },
     {
       "target_name": "center",
@@ -18,7 +18,7 @@
         "OTHER_CFLAGS": [ "-std=c++11",  "-stdlib=libc++" ],
         "OTHER_LDFLAGS": [ "-stdlib=libc++" ],
         "MACOSX_DEPLOYMENT_TARGET": "10.7"
-      },
+      }
     },
     {
       "target_name": "tsp",
@@ -28,7 +28,17 @@
         "OTHER_CFLAGS": [ "-std=c++11",  "-stdlib=libc++" ],
         "OTHER_LDFLAGS": [ "-stdlib=libc++" ],
         "MACOSX_DEPLOYMENT_TARGET": "10.7"
-      },
+      }
+    },
+    {
+      "target_name": "polynomial",
+      "sources": [ "./src/native/polynomial.cc" ],
+      "cflags": [ "-std=c++11" ],
+      "xcode_settings": {
+        "OTHER_CFLAGS": [ "-std=c++11",  "-stdlib=libc++" ],
+        "OTHER_LDFLAGS": [ "-stdlib=libc++" ],
+        "MACOSX_DEPLOYMENT_TARGET": "10.7"
+      }
     }
   ]
 }

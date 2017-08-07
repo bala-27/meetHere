@@ -28,7 +28,7 @@ $ npm i meethere --save
 
 Or [build it yourself](#develop)!
 
-<sub>[Supported Node versions]('#support')</sub>
+<sub>[Supported Node versions](#support)</sub>
 
 ## Usage
 You can find the full API [here](http://meethere.js.org).
@@ -63,10 +63,7 @@ const user = [33.0952311, -96.8640427];
 const west = [33.0437115, -96.8157956];
 const senior = [33.0284505, -96.7546927];
 
-let Map = new MeetHere(
-  [user, west, senior],
-  MY_GOOGLE_MAPS_TOKEN
-);
+let Map = new MeetHere([user, west, senior], MY_GOOGLE_MAPS_TOKEN);
 Map.meetHere // => [ 33.04371181611578, -96.81579457575877 ]
 Map.nearby().then(console.log) // => { results: [...] }
 ```

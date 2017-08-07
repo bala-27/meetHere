@@ -8,4 +8,6 @@ const unsigned int RADIUS_METERS = 6371e3;
 const double METERS_TO_KM = 1e-3;
 const double METERS_TO_MILES = 6.2137119223733e-4;
 
+extern double haversine(double &, double &, double &, double &);
+
 } // namespace Cartesian
