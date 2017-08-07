@@ -53,14 +53,14 @@ describe('MeetHere', () => {
       );
       it('works', () => {
         return test
-          .distance()
+          .distance('km', true)
           .should.eventually.be.an('Object')
           .with.property('distances')
           .that.is.an('Array');
       });
       it('works with defaults', () => {
         return test
-          .distance('mi', true)
+          .distance()
           .should.eventually.be.an('Object')
           .with.property('distances')
           .that.is.an('Array');

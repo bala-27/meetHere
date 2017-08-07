@@ -75,12 +75,9 @@ describe('Position', () => {
     });
     it('calculates polynomial', () => {
       const test = new Position([[1, 2], [5, 6.6], [-7, 8.1], [3.1, -1.7]]);
-      expect(test.polynomial).to.deep.equal([
-        6.4055112254647835,
-        -4.836808295491288,
-        0.295336035013277,
-        0.13596103501327805
-      ]);
+      expect(
+        test.polynomial.map(v => Math.round(v * 1e6) / 1e6)
+      ).to.deep.equal([6.405511, -4.836808, 0.295336, 0.135961]);
     });
   });
   describe('manipulation', () => {
