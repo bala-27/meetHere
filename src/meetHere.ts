@@ -150,7 +150,7 @@ export class MeetHere extends Position {
     units: string = KM,
     geometric: boolean = true
   ): Promise<object> {
-    return CARTESIAN.distance(
+    return await CARTESIAN.distance(
       this.locations,
       this.middle(geometric),
       asciiDistanceUnits[units]
@@ -173,7 +173,7 @@ export class MeetHere extends Position {
     geometric: boolean = true
   ): Promise<object> {
     options['location'] = this.middle(geometric);
-    return this.client
+    return await this.client
       .placesNearby({ ...MeetHere.defaultPlacesOptions, ...options })
       .asPromise()
       .then(response => response.json)
@@ -190,7 +190,7 @@ export class MeetHere extends Position {
    */
   async roads(geometric: boolean = true): Promise<object> {
     const center = this.middle(geometric);
-    return this.client
+    return await this.client
       .nearestRoads({ points: [center] })
       .asPromise()
       .then(response => response.json)
@@ -215,7 +215,7 @@ export class MeetHere extends Position {
     options['location'] = this.middle(geometric);
     options = { ...MeetHere.defaultTimeZoneOptions, ...options };
     options['timestamp'] = options['timestamp'] || ~~(Date.now() / 1000);
-    return this.client
+    return await this.client
       .timezone(options)
       .asPromise()
       .then(response => response.json)
@@ -240,7 +240,7 @@ export class MeetHere extends Position {
   ): Promise<object> {
     options['origins'] = this.locations;
     options['destinations'] = [this.middle(geometric)];
-    return this.client
+    return await this.client
       .distanceMatrix({
         ...MeetHere.defaultDistanceOptions,
         ...options

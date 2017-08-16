@@ -1,6 +1,6 @@
 {
   "name": "meethere",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A hyper-efficient library for position manipulation",
   "main": "dist/index.js",
   "gypfile": true,

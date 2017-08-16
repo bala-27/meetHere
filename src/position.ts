@@ -161,7 +161,7 @@ export class Position {
    * @name Position#polynomial
    * @function
    * @return {Array} an n-length array of the coefficients of a best-fit,
-   * n-degree polynomial, where each index corresponds to its degree. E.g.
+   * n-degree polynomial, where each index corresponds to its degree. E.g.:
    * ```
    * [1, 4, 9] // => 1(x^0) + 4(x^1) + 9(x^2)
    * ```
