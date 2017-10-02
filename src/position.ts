@@ -4,7 +4,7 @@ import * as Bindings from 'bindings';
 const CENTER = Bindings('center');
 const POLYNOMIAL = Bindings('polynomial');
 const TSP = Bindings('tsp');
-const asciiMethod = {
+const Method = {
   tsp: 116,
   naiveVsp: 110
 };
@@ -150,7 +150,7 @@ export class Position {
    * the shortest path
    */
   get path(): Array<number> {
-    return TSP.tsp(this.locations, this.options.startIndex, asciiMethod['tsp']);
+    return TSP.tsp(this.locations, this.options.startIndex, Method['tsp']);
   }
 
   /**
@@ -182,11 +182,7 @@ export class Position {
    * the shortest manhattan path
    */
   get naiveDrive() {
-    return TSP.tsp(
-      this.locations,
-      this.options.startIndex,
-      asciiMethod['naiveVsp']
-    );
+    return TSP.tsp(this.locations, this.options.startIndex, Method['naiveVsp']);
   }
 
   /**

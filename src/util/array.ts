@@ -16,7 +16,7 @@ export function arrayUtil(): void {
    * @extends Array
    */
   Array.prototype.deepIndexOf = function(value: Array<number>): number {
-    for (let i = 0; i < this.length; i++) {
+    for (let i = 0; i < this.length; ++i) {
       if (
         this[i].length === value.length &&
         this[i].every((v, j) => v === value[j])

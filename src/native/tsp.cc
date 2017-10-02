@@ -57,7 +57,7 @@ double cost(double **points, const unsigned char &length, const double &x,
  * Summates the Manhattan distance between a center and an arbitrary amount
  * of points as an efficient and powerful cost function for VRP.
  *
- * NOTE Effictive mostly only in Manhattan-style planes.
+ * NOTE Effective mostly only in Manhattan-style planes.
  */
 double manhattanCost(double **points, const unsigned char &length,
                      const double &x, const double &y) {
@@ -84,10 +84,10 @@ void tsp(const v8::FunctionCallbackInfo<v8::Value> &args) {
 
   const unsigned int len = _points->Length();
 
-  // setup visited-cities and cost matrix
-  // std::vector<bool> visited(len, false);
+  // setup visited-cities
   bool *visited = new bool[len]();
 
+  // setup cost matrix
   double **matrix = new double *[len];
   for (unsigned int i = 0; i < len; ++i) {
     matrix[i] = new double[len];
@@ -107,10 +107,10 @@ void tsp(const v8::FunctionCallbackInfo<v8::Value> &args) {
         from[k] =
             v8::Local<v8::Array>::Cast(_points->Get(i))->Get(k)->NumberValue();
       }
-
-      if (method == 't') {
+      switch (method) {
+      case Method::method::tsp:
         matrix[i][j] = cost(to, matrixLen, from[0], from[1]);
-      } else if (method == 'n') {
+      case Method::method::naiveVsp:
         matrix[i][j] = manhattanCost(to, matrixLen, from[0], from[1]);
       }
     }
