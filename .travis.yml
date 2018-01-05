@@ -11,3 +11,14 @@ os:
   - osx
 script:
   - npm test
+after_success:
+  - npm run docs
+  - mv docs/meethere/* out
+deploy:
+  provider: pages
+  local_dir: out
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  fqdn: meethere.js.org
+  on:
+    branch: master
