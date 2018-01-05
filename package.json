@@ -7,11 +7,15 @@
   "scripts": {
     "build": "./node_modules/.bin/tsc",
     "compile": "node-gyp configure && node-gyp build && npm test",
-    "coverage": "./node_modules/.bin/nyc report --reporter=lcov && open coverage/lcov-report/index.html",
-    "docs": "npm run build && jsdoc -c .jsdoc.json --verbose",
+    "coverage":
+      "./node_modules/.bin/nyc report --reporter=lcov && open coverage/lcov-report/index.html",
+    "docs":
+      "npm run build && ./node_modules/.bin/jsdoc -c .jsdoc.json --verbose",
     "prepare": "npm run build",
-    "posttest": "./node_modules/.bin/nyc report --reporter=text-lcov | coveralls",
-    "test": "./node_modules/.bin/nyc ./node_modules/.bin/mocha ./spec/*.spec.ts -t 5000"
+    "posttest":
+      "./node_modules/.bin/nyc report --reporter=text-lcov | coveralls",
+    "test":
+      "./node_modules/.bin/nyc ./node_modules/.bin/mocha ./spec/*.spec.ts -t 5000"
   },
   "repository": {
     "type": "git",
@@ -24,7 +28,8 @@
   },
   "homepage": "https://github.com/ayazhafiz/meetHere#readme",
   "dependencies": {
-    "@google/maps": "^0.4.3"
+    "@google/maps": "^0.4.3",
+    "jsdoc": "^3.5.5"
   },
   "devDependencies": {
     "@types/chai": "^4.0.1",

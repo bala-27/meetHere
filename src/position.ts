@@ -200,7 +200,7 @@ export class Position {
    * Calculates the net cost of travelling from the points to their geometric
    * center.
    *
-   * @name Position#medianCost
+   * @name Position#centerCost
    * @function
    * @return {number} Cost of travelling
    */

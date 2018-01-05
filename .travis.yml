@@ -10,9 +10,9 @@ os:
   - linux
   - osx
 script:
-  - npm test
+  - yarn test
 after_success:
-  - npm run docs
+  - yarn docs
   - mv docs/meethere/* out
 deploy:
   provider: pages
