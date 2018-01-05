@@ -114,7 +114,7 @@ export class Position {
    *
    * @name Position#center
    * @see https://stackoverflow.com/a/12934484
-   * @desc heavily optimized JS version of @see
+   * @desc heavily optimized, natively binded version of @see
    * @function
    * @return {Array} Geometric center of the Position
    */
@@ -186,7 +186,35 @@ export class Position {
   }
 
   /**
-   * Calculates the decimal improvement of Position#center as compared to
+   * Calculates the net cost of travelling from the points to their median.
+   *
+   * @name Position#medianCost
+   * @function
+   * @return {number} Cost of travelling
+   */
+  get medianCost(): number {
+    return CENTER.mass(this.locations).score;
+  }
+
+  /**
+   * Calculates the net cost of travelling from the points to their geometric
+   * center.
+   *
+   * @name Position#medianCost
+   * @function
+   * @return {number} Cost of travelling
+   */
+  get centerCost(): number {
+    return CENTER.geometric(
+      this.locations,
+      this.options.subsearch,
+      this.options.epsilon,
+      this.options.bounds
+    ).score;
+  }
+
+  /**
+   * Calculates the percent improvement of Position#center as compared to
    * Position#median in each dimension.
    *
    * @name Position#score
@@ -194,15 +222,7 @@ export class Position {
    * @return {Array} Median of the Position
    */
   get score(): number {
-    const [median, center] = [
-      CENTER.mass(this.locations).score,
-      CENTER.geometric(
-        this.locations,
-        this.options.subsearch,
-        this.options.epsilon,
-        this.options.bounds
-      ).score
-    ];
+    const [median, center] = [this.medianCost, this.centerCost];
     return (median - center) / median;
   }
 }

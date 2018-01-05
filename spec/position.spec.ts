@@ -6,14 +6,41 @@ describe('Position', () => {
   describe('instantiation', () => {
     it('works with number Arrays', () => {
       const test = new Position([[1, 2], [5, 6.6], [-7, 8.1]]);
-      expect(test).to.have
-        .property('locations')
+      expect(test)
+        .to.have.property('locations')
         .that.is.an('Array')
         .that.deep.equals([[1, 2], [5, 6.6], [-7, 8.1]]);
-      expect(test).to.have
-        .property('options')
+      expect(test)
+        .to.have.property('options')
         .that.has.property('epsilon')
         .that.is.an('number');
+    });
+  });
+  describe('manipulation', () => {
+    it('adds points to locations', () => {
+      const test = new Position([[1, 2]]);
+      test.add([5, 3]);
+      expect(test.locations).to.deep.equal([[1, 2], [5, 3]]);
+    });
+    it('removes points in locations', () => {
+      const test = new Position([[1, 2], [5, 3]]);
+      expect(test.remove([5, 3])).to.deep.equal([5, 3]);
+      expect(test.locations).to.deep.equal([[1, 2]]);
+    });
+    it('returns invalid index for removal of non-existent element', () => {
+      const test = new Position([[1, 2]]);
+      expect(test.remove([5, 3])).to.equal(-1);
+      expect(test.locations).to.deep.equal([[1, 2]]);
+    });
+    it('adjusts points in locations', () => {
+      const test = new Position([[1, 2], [5, 3]]);
+      expect(test.adjust([5, 3], [3, 5])).to.deep.equal([5, 3]);
+      expect(test.locations).to.deep.equal([[1, 2], [3, 5]]);
+    });
+    it('returns invalid index for adjustment of non-existent element', () => {
+      const test = new Position([[1, 2]]);
+      expect(test.adjust([5, 3], [3, 5])).to.equal(-1);
+      expect(test.locations).to.deep.equal([[1, 2]]);
     });
   });
   describe('center', () => {
@@ -36,10 +63,6 @@ describe('Position', () => {
     it('finds median of points', () => {
       const test = new Position([[1, 2], [5, 6.6], [-7, 8.1], [3.1, -1.7]]);
       expect(test.median).to.deep.equal([0.525, 3.75]);
-    });
-    it('calculates score', () => {
-      const test = new Position([[1, 2], [5, 6.6], [-7, 8.1], [3.1, -1.7]]);
-      expect(test.score).to.equal(0.06535988277952172);
     });
     it('finds shortest path between paths', () => {
       const test = new Position([
@@ -75,36 +98,23 @@ describe('Position', () => {
     });
     it('calculates polynomial', () => {
       const test = new Position([[1, 2], [5, 6.6], [-7, 8.1], [3.1, -1.7]]);
-      expect(
-        test.polynomial.map(v => Math.round(v * 1e6) / 1e6)
-      ).to.deep.equal([6.405511, -4.836808, 0.295336, 0.135961]);
+      expect(test.polynomial.map(v => Math.round(v * 1e6) / 1e6)).to.deep.equal(
+        [6.405511, -4.836808, 0.295336, 0.135961]
+      );
     });
   });
-  describe('manipulation', () => {
-    it('adds points to locations', () => {
-      const test = new Position([[1, 2]]);
-      test.add([5, 3]);
-      expect(test.locations).to.deep.equal([[1, 2], [5, 3]]);
+  describe('calculates cost', () => {
+    it('calculates cost for median', () => {
+      const test = new Position([[0, 0], [0, 1], [1, 0]]);
+      expect(test.medianCost).to.equal(1.9621165057908914);
     });
-    it('removes points in locations', () => {
-      const test = new Position([[1, 2], [5, 3]]);
-      expect(test.remove([5, 3])).to.deep.equal([5, 3]);
-      expect(test.locations).to.deep.equal([[1, 2]]);
+    it('calculates cost for center', () => {
+      const test = new Position([[0, 0], [0, 1], [1, 0]]);
+      expect(test.centerCost).to.equal(1.9318524378402253);
     });
-    it('returns invalid index for removal of non-existent element', () => {
-      const test = new Position([[1, 2]]);
-      expect(test.remove([5, 3])).to.equal(-1);
-      expect(test.locations).to.deep.equal([[1, 2]]);
-    });
-    it('adjusts points in locations', () => {
-      const test = new Position([[1, 2], [5, 3]]);
-      expect(test.adjust([5, 3], [3, 5])).to.deep.equal([5, 3]);
-      expect(test.locations).to.deep.equal([[1, 2], [3, 5]]);
-    });
-    it('returns invalid index for adjustment of non-existent element', () => {
-      const test = new Position([[1, 2]]);
-      expect(test.adjust([5, 3], [3, 5])).to.equal(-1);
-      expect(test.locations).to.deep.equal([[1, 2]]);
+    it('calculates score', () => {
+      const test = new Position([[1, 2], [5, 6.6], [-7, 8.1], [3.1, -1.7]]);
+      expect(test.score).to.equal(0.06535988277952172);
     });
   });
 });
