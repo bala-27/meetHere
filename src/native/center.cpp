@@ -12,8 +12,16 @@ const double Center::DELTA_X[] = {-1, -S2, 0, S2, 1, S2, 0, -S2};
 const double Center::DELTA_Y[] = {0, S2, 1, S2, 0, -S2, -1, -S2};
 
 /**
- * Summates the Pythagorean distance between a center and an arbitrary amount
- * of points as an efficient and powerful cost function.
+ * @brief   Calculates the net cost of travelling from a set of points to their
+ *          center
+ * @details Uses Pythagorean distance for cost measurement
+ *
+ * @param   x         center x coordinate
+ * @param   y         center y coordinate
+ * @param   points    points to measure distance from
+ * @param   numPoints number of points
+ *
+ * @return  net cost of travelling to the center
  */
 double Center::cost(double       x,
                     double       y,
@@ -30,10 +38,17 @@ double Center::cost(double       x,
 }
 
 /**
- * Summates the Manhattan distance between a center and an arbitrary amount
- * of points as an efficient and powerful cost function for VRP.
+ * @brief   Calculates the net cost of travelling from a set of points to their
+ *          center
+ * @details Uses Manhattan distance for cost measurement
+ * @note    Effective mostly only for taxi-cab-like problems
  *
- * NOTE Effective mostly only in Manhattan-style planes.
+ * @param   x         center x coordinate
+ * @param   y         center y coordinate
+ * @param   points    points to measure distance from
+ * @param   numPoints number of points
+ *
+ * @return  net cost of travelling to the center
  */
 double Center::manhattanCost(double       x,
                              double       y,
@@ -49,8 +64,13 @@ double Center::manhattanCost(double       x,
 }
 
 /**
- * Finds the center of mass of an arbitrary amount of points using standard
- * median.
+ * @brief   Finds the center of a set of points
+ * @details Assumes all points have equal weight. Puts the center of mass in a
+ *          user-designated array.
+ *
+ * @param   points    points to measure
+ * @param   numPoints number of points
+ * @param   fill      array to fill with center of mass
  */
 void Center::centerOfMass(const double points[][2],
                           size_t       numPoints,
@@ -68,14 +88,24 @@ void Center::centerOfMass(const double points[][2],
 }
 
 /**
- * Fills an array with the geometric center of an arbitrary amount of points.
- * Returns the score (total cost to center) of the geometric center.
+ * @brief   Finds the geometric center of a set of points.
+ * @details Fills an array with the geometric center of an arbitrary amount of
+ *          points. Returns the score (total cost to center) of the geometric
+ *          center.
+ *          The algorithm is a simple Newtonian search. We iterate an
+ *          indiscriminate amount of times through smaller bounds until we
+ *          approve some margin of error. Note that local maxima are a
+ *          non-issue, as the geometric median is (unique and covergent for
+ *          non-co-linear
+ *          points)[http://www.stat.rutgers.edu/home/cunhui/papers/39.pdf].
  *
- * This is done through a simple Newtonian search. We iterate an indiscriminate
- * amount of times through smaller bounds until we approve some margin of error
- * (epsilon). Note that local maxima is a non-issue, as the geometric median is
- * (unique and covergent for non-co-linear
- * points)[http://www.stat.rutgers.edu/home/cunhui/papers/39.pdf].
+ * @param   points    points to find the center of
+ * @param   numPoints number of points
+ * @param   options   specified margin of error, bound range, and subsearch
+ *                    value
+ * @param   fill      array to fill with geometric center
+ *
+ * @return  geometric center of a set of points
  */
 double Center::geometricCenter(const double                   points[][2],
                                size_t                         numPoints,

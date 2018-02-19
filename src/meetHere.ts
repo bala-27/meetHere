@@ -17,13 +17,14 @@ const asciiDistanceUnits = {
 
 /**
  * A prototype describing a set of points on a map, with first-class Google Maps
- * integration. Non-trivial tasks require the declaration of an API token.
+ * integration. Declaration of an API token is not required for use of the
+ * class, but any API requests will fail without one.
  *
  * ```
  * import { MeetHere } from 'meethere';
  *
- * let Map = new MeetHere(
- *   [ [-33, 44], [-35, 41], [-31, 43] ],
+ * let map = new MeetHere(
+ *   [[-33, 44], [-35, 41], [-31, 43]],
  *   MY_GOOGLE_MAPS_TOKEN
  * );
  * ```
@@ -32,8 +33,8 @@ const asciiDistanceUnits = {
  * `Promise` from which the response can be handled.
  *
  * ```
- * Map.nearby() // => Promise<pending>
- * Map.nearby(options, true).then(processNearbyLocations)
+ * map.nearby() // => Promise<pending>
+ * map.nearby(options, true).then(processNearbyLocations)
  *
  * function processNearbyLocations(error, result) {
  *   ...
@@ -43,7 +44,7 @@ const asciiDistanceUnits = {
  * @class
  * @extends Position
  */
-export class MeetHere extends Position {
+class MeetHere extends Position {
   client: GoogleMapsClient;
 
   /**
@@ -102,7 +103,8 @@ export class MeetHere extends Position {
    * @constructs
    * @param {Array} locations 2D Array of points on a map
    * @param {string} token Google Maps API token
-   * @param {CenterOptions} [options=MeetHere.defaultCenterOptions] Whether to search for centroid obliquely
+   * @param {CenterOptions} [options=MeetHere.defaultCenterOptions] Whether to
+   * search for centroid obliquely
    */
   constructor(
     locations: Array<Array<number>>,
@@ -132,25 +134,43 @@ export class MeetHere extends Position {
    * @alias Position#center
    * @function
    * @return {Array} Geometric center of the Position
+   *
+   * ```
+   * let map = new MeetHere([[-33, 44], [-35, 41], [-31, 43]]);
+   * map.meetHere; // => [-32.80928, 43.39817]
+   * ```
    */
   get meetHere(): Array<number> {
     return this.center;
   }
 
   /**
-   * Returns a sole-distance matrix of the MeetHere using native computation
+   * Returns a distance matrix from each point of the MeetHere to the geometric
+   * center.
    *
    * @name MeetHere#distance
    * @function
    * @param {string} [units='km'] Units of distance to use, can be 'km' or 'mi'
    * @param {boolean} [geometric=true] Whether to use geometric or median center
-   * @return {Promise} A Promise that will yield distances or an error
+   * @return {Object.<string, Array>} A Promise that will yield distances or
+   * an error
+   *
+   * ```
+   * let map = new MeetHere([[-33, 44], [-35, 41], [-31, 43]]);
+   * map.distance; // => { origins: [[-33, 44], [-35, 41], [-31, 43]],
+   *               //      destination: [-32.80928, 43.39817],
+   *               //      distances: [37.31571, 204.49320, 127.17181] }
+   * ```
    */
-  async distance(
+  distanceMatrix(
     units: string = KM,
     geometric: boolean = true
-  ): Promise<object> {
-    return await CARTESIAN.distance(
+  ): {
+    origins: Array<number>;
+    destinations: Array<number>;
+    distances: Array<number>;
+  } {
+    return CARTESIAN.distance(
       this.locations,
       this.middle(geometric),
       asciiDistanceUnits[units]
@@ -163,6 +183,7 @@ export class MeetHere extends Position {
    * @name MeetHere#nearby
    * @see https://googlemaps.github.io/google-maps-services-js/docs/GoogleMapsClient.html#placesNearby
    * @function
+   * @async
    * @param {PlacesOptions} [options=MeetHere.defaultPlacesOptions] Options to
    * apply to search request, can be any of @see
    * @param {boolean} [geometric=true] Whether to use geometric or median center
@@ -185,6 +206,7 @@ export class MeetHere extends Position {
    *
    * @name MeetHere#roads
    * @function
+   * @async
    * @param {boolean} [geometric=true] Whether to use geometric or median center
    * @return {Promise} A Promise that will yield nearby roads or an error
    */
@@ -203,6 +225,7 @@ export class MeetHere extends Position {
    * @name MeetHere#timezone
    * @see https://googlemaps.github.io/google-maps-services-js/docs/GoogleMapsClient.html#timezone
    * @function
+   * @async
    * @param {TimeZoneOptions} [options=MeetHere.defaultTimeZoneOptions] Options
    * to apply to timezone request, can be any of @see
    * @param {boolean} [geometric=true] Whether to use geometric or median center
@@ -229,6 +252,7 @@ export class MeetHere extends Position {
    * @name MeetHere#travel
    * @see https://googlemaps.github.io/google-maps-services-js/docs/GoogleMapsClient.html#distanceMatrix
    * @function
+   * @async
    * @param {DistanceOptions} [options=MeetHere.defaultDistanceOptions] Options
    * to apply to distance matrix request, can be any of @see
    * @param {boolean} [geometric=true] Whether to use geometric or median center
@@ -250,3 +274,5 @@ export class MeetHere extends Position {
       .catch(error => error.json);
   }
 }
+
+export { MeetHere };

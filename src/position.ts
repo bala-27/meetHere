@@ -6,7 +6,7 @@ const POLYNOMIAL = Bindings('polynomial');
 const TSP = Bindings('tsp');
 const Method = {
   tsp: 116,
-  naiveVsp: 110
+  naiveVrp: 110
 };
 
 arrayUtil();
@@ -34,7 +34,7 @@ arrayUtil();
  *
  * @class
  */
-export class Position {
+class Position {
   locations: Array<Array<number>>;
   options: CenterOptions;
 
@@ -58,7 +58,8 @@ export class Position {
    *
    * @constructs
    * @param {Array} locations 2D Array of points on a plane
-   * @param {CenterOptions} [options=Position.defaultCenterOptions] General search options
+   * @param {CenterOptions} [options=Position.defaultCenterOptions] General
+   * search options
    */
   constructor(locations: Array<Array<number>>, options: CenterOptions = {}) {
     this.locations = locations;
@@ -71,6 +72,11 @@ export class Position {
    * @name Position#add
    * @function
    * @param {Array} location Point to add
+   *
+   * ```
+   * let plane = new Position([[0, 1]]);
+   * plane.add([1, 0]); // => [[0, 1], [1, 0]]
+   * ```
    */
   add(location: Array<number>): void {
     this.locations.push(location);
@@ -83,6 +89,11 @@ export class Position {
    * @function
    * @param {Array} location Point to remove
    * @return {Array|number} The removed location, or `-1` if no match is found
+   *
+   * ```
+   * let plane = new Position([[2, 3], [5, 6]]);
+   * plane.remove([2, 3]); // => [[5, 6]]
+   * ```
    */
   remove(location: Array<number>): Array<number> | number {
     const idx = this.locations.deepIndexOf(location);
@@ -93,15 +104,20 @@ export class Position {
   }
 
   /**
-   * Replaces an existing location.
+   * Moves (replaces) an existing location.
    *
-   * @name Position#adjust
+   * @name Position#move
    * @function
-   * @param {Array} location Point to adjust
-   * @param {Array} to Value to adjust to
+   * @param {Array} location Point to move
+   * @param {Array} to Value to move to
    * @return {Array|number} The previous location, or `-1` if no match is found
+   *
+   * ```
+   * let plane = new Position([[0, 1]]);
+   * plane.move([0, 1], [9, 10]); // => [[9, 10]]
+   * ```
    */
-  adjust(location: Array<number>, to: Array<number>): Array<number> | number {
+  move(location: Array<number>, to: Array<number>): Array<number> | number {
     const idx = this.locations.deepIndexOf(location);
     if (idx > -1) {
       return this.locations.splice(idx, 1, to)[0];
@@ -117,6 +133,11 @@ export class Position {
    * @desc heavily optimized, natively binded version of @see
    * @function
    * @return {Array} Geometric center of the Position
+   *
+   * ```
+   * let plane = new Position([[0, 0], [0, 1], [1, 0]]);
+   * plane.center; // => [0.21198, 0.21198]
+   * ```
    */
   get center(): Array<number> {
     return CENTER.geometric(
@@ -134,6 +155,11 @@ export class Position {
    * @desc a rudimentary estimate for Position#center
    * @function
    * @return {Array} Geometric center of the Position
+   *
+   * ```
+   * let plane = new Position([[0, 0], [0, 1], [1, 0]]);
+   * plane.center; // => [0.33333, 0.33333]
+   * ```
    */
   get median(): Array<number> {
     return CENTER.mass(this.locations).center;
@@ -141,16 +167,40 @@ export class Position {
 
   /**
    * Returns the index order of the least-costly path between all locations on
-   * the plane through a rudimentary solution of the TSP (~80 point efficiency).
+   * the plane through a solution of the TSP (~80 point efficiency).
    *
-   * @name Position#path
+   * @name Position#bestPath
    * @TODO More involved TSP solution (figure out or-tools bindings)
    * @function
    * @return {Array} Order of indeces of the locations on the plane that gives
    * the shortest path
+   *
+   * ```
+   * let plane = new Position([[0, 0], [5, 10], [3, 4]]);
+   * plane.bestPath; // => [0, 2, 1]
+   * ```
    */
-  get path(): Array<number> {
+  get bestPath(): Array<number> {
     return TSP.tsp(this.locations, this.options.startIndex, Method['tsp']);
+  }
+
+  /**
+   * Returns the index order of the least-costly manhattan-style drive between
+   * all locations on the plane through a solution of the VRP (~80 point
+   * efficiency).
+   *
+   * @name Position#quickPath
+   * @TODO More involved VRP solution (figure out or-tools bindings)
+   * @function
+   * @return {Array} Order of indeces of the locations on the plane that gives
+   * the shortest manhattan path
+   *
+   * ```
+   * let plane = new Position([[0, 0], [5, 10], [3, 4]]);
+   * plane.quickPath; // => [0, 2, 1]
+   */
+  get quickPath() {
+    return TSP.tsp(this.locations, this.options.startIndex, Method['naiveVrp']);
   }
 
   /**
@@ -161,28 +211,15 @@ export class Position {
    * @name Position#polynomial
    * @function
    * @return {Array} an n-length array of the coefficients of a best-fit,
-   * n-degree polynomial, where each index corresponds to its degree. E.g.:
+   * n-degree polynomial, where each index corresponds to its degree.
+   *
    * ```
-   * [1, 4, 9] // => 1(x^0) + 4(x^1) + 9(x^2)
+   * let plane = new Position([[0, 1], [1, 7], [2, 21]]);
+   * plane.polynomial; // => [1, 4, 9] { 1(x^0) + 4(x^1) + 9(x^2) }
    * ```
    */
   get polynomial(): Array<number> {
     return POLYNOMIAL.bestFit(this.locations, this.options.degree);
-  }
-
-  /**
-   * Returns the index order of the least-costly manhattan-style drive between
-   * all locations on the plane through a naive solution of the VRP (~80 point
-   * efficiency).
-   *
-   * @name Position#naiveDrive
-   * @TODO More involved VRP solution (figure out or-tools bindings)
-   * @function
-   * @return {Array} Order of indeces of the locations on the plane that gives
-   * the shortest manhattan path
-   */
-  get naiveDrive() {
-    return TSP.tsp(this.locations, this.options.startIndex, Method['naiveVsp']);
   }
 
   /**
@@ -191,6 +228,11 @@ export class Position {
    * @name Position#medianCost
    * @function
    * @return {number} Cost of travelling
+   *
+   * ```
+   * let plane = new Position([[0, 1], [1, 14], [2, 45]]);
+   * plane.medianCost; // => 50.04629
+   * ```
    */
   get medianCost(): number {
     return CENTER.mass(this.locations).score;
@@ -203,6 +245,11 @@ export class Position {
    * @name Position#centerCost
    * @function
    * @return {number} Cost of travelling
+   *
+   * ```
+   * let plane = new Position([[0, 1], [1, 14], [2, 45]]);
+   * plane.centerCost; // => 44.05482
+   * ```
    */
   get centerCost(): number {
     return CENTER.geometric(
@@ -217,14 +264,19 @@ export class Position {
    * Calculates the percent improvement of Position#center as compared to
    * Position#median in each dimension.
    *
-   * @name Position#score
+   * @name Position#geometricSignificance
    * @function
    * @return {Array} Median of the Position
+   *
+   * ```
+   * let plane = new Position([[0, 1], [1, 14], [2, 45]]);
+   * plane.geometricSignificance; // => 0.11971858482905647
+   * ```
    */
-  get score(): number {
+  get geometricSignificance(): number {
     const [median, center] = [this.medianCost, this.centerCost];
     return (median - center) / median;
   }
 }
 
-export { Bindings };
+export { Bindings, Position };

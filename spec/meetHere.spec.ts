@@ -18,16 +18,20 @@ describe('MeetHere', () => {
         process.env.GOOGLE_MAPS_TOKEN,
         { epsilon: 1e-6 }
       );
-      expect(test).to.have
-        .property('locations')
+      expect(test)
+        .to.have.property('locations')
         .that.is.an('Array')
         .that.deep.equals([
           [33.0952311, -96.8640427],
           [33.0437115, -96.8157956],
           [33.0284505, -96.7546927]
         ]);
-      expect(test).to.have.property('client').that.is.an('Object');
-      expect(test).to.have.property('options').that.has.property('epsilon');
+      expect(test)
+        .to.have.property('client')
+        .that.is.an('Object');
+      expect(test)
+        .to.have.property('options')
+        .that.has.property('epsilon');
     });
   });
   describe('functionality', () => {
@@ -53,15 +57,15 @@ describe('MeetHere', () => {
       );
       it('works', () => {
         return test
-          .distance('km', true)
-          .should.eventually.be.an('Object')
+          .distanceMatrix('km', true)
+          .should.be.an('Object')
           .with.property('distances')
           .that.is.an('Array');
       });
       it('works with defaults', () => {
         return test
-          .distance()
-          .should.eventually.be.an('Object')
+          .distanceMatrix()
+          .should.be.an('Object')
           .with.property('distances')
           .that.is.an('Array');
       });

@@ -4,7 +4,7 @@
 namespace Cartesian
 {
 /**
- * Calculates the Cartesian (Earthly) distance between two Lat/Lng points
+ * Calculates the Cartesian (Earthly) distance between two Lat/Lng points.
  */
 void distance(const v8::FunctionCallbackInfo<v8::Value> & args)
 {

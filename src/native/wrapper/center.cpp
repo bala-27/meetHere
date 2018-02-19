@@ -5,12 +5,6 @@ namespace Center
 {
 /**
  * Calculates the geometric center of an arbitrary amount of points.
- *
- * This is done through a simple Newtonian search. We iterate an indiscriminate
- * amount of times through smaller bounds until we approve some margin of error
- * (epsilon). Note that local maxima is a non-issue, as the geometric median is
- * (unique and covergent for non-co-linear
- * points)[http://www.stat.rutgers.edu/home/cunhui/papers/39.pdf].
  */
 void geometric(const v8::FunctionCallbackInfo<v8::Value> & args)
 {

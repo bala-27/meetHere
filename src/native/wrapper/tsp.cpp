@@ -6,11 +6,9 @@
 namespace TSP
 {
 /**
- * Determines the shortest-travel path between planar points using Branch and
- * Bound. The operation records nodes (cities) travelled to and continues until
- * there are no more cities left to travel to.
+ * Determines the shortest-travel path between planar points.
  */
-void calTSP(const v8::FunctionCallbackInfo<v8::Value> & args)
+void wrapTSP(const v8::FunctionCallbackInfo<v8::Value> & args)
 {
   v8::Isolate * isolate = args.GetIsolate();
 
@@ -22,11 +20,14 @@ void calTSP(const v8::FunctionCallbackInfo<v8::Value> & args)
 
   // setup visited-cities
   bool visited[numPoints];
+  for (size_t i = 0; i < numPoints; ++i) {
+    visited[i] = false;
+  }
 
   // setup cost matrix
   Util::DoubleArr2D costMatrix = new Util::DoubleArr[numPoints];
   for (size_t i = 0; i < numPoints; ++i) {
-    *(costMatrix + i) = new double[numPoints];
+    costMatrix[i] = new double[numPoints];
   }
 
   const size_t matrixLen = 1;
@@ -46,7 +47,7 @@ void calTSP(const v8::FunctionCallbackInfo<v8::Value> & args)
       switch (method) {
         case VisitMethod::tsp:
           costMatrix[i][j] = Center::cost(from[0], from[1], to, matrixLen);
-        case VisitMethod::naiveVsp:
+        case VisitMethod::naiveVrp:
           costMatrix[i][j] =
               Center::manhattanCost(from[0], from[1], to, matrixLen);
       }
@@ -75,7 +76,7 @@ void calTSP(const v8::FunctionCallbackInfo<v8::Value> & args)
 
 void init(v8::Local<v8::Object> exports)
 {
-  NODE_SET_METHOD(exports, "tsp", calTSP);
+  NODE_SET_METHOD(exports, "tsp", wrapTSP);
 }
 
 NODE_MODULE(addon, init);

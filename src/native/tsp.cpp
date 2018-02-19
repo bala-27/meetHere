@@ -3,8 +3,16 @@
 #include <limits>
 
 /**
- * Finds the node nearest the current node (city) on the cost matrix using
- * Branch and Bound.
+ * @brief   Calculates the nearest unvisited city to a specified one
+ * @details Iterates over a cost matrix to find the cheapest, unvisited city
+ *          to travel to from the current one.
+ *
+ * @param   costMatrix  costs of travelling between each city
+ * @param   len         size of the cost matrix
+ * @param   currentCity city to find the next one from
+ * @param   visited     tracks visited cities
+ *
+ * @return  index of nearest city, or -1 if no cities left
  */
 int TSP::nearestCity(const Util::DoubleArr2D costMatrix,
                      size_t                  len,
