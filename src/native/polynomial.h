@@ -1,8 +1,8 @@
 #ifndef POLYNOMIAL_H
 #define POLYNOMIAL_H
 
-#include <cmath>
 #include "util.h"
+#include <stddef.h>
 
 namespace Polynomial
 {

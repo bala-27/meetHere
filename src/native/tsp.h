@@ -2,7 +2,7 @@
 #define TSP_H
 
 #include "util.h"
-#include <cmath>
+#include <stddef.h>
 
 namespace TSP
 {

@@ -1,7 +1,7 @@
 #ifndef CARTESIAN_H
 #define CARTESIAN_H
 
-#include <cmath>
+#include <stddef.h>
 
 namespace Cartesian
 {

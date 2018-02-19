@@ -1,4 +1,5 @@
 #include "center.h"
+#include <cmath>
 
 /*
  *           (0,1)

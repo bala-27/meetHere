@@ -1,6 +1,5 @@
 #include "../polynomial.h"
 #include "../util.h"
-#include <cmath>
 #include <node.h>
 
 namespace Polynomial

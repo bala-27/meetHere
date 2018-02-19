@@ -1,7 +1,7 @@
 #ifndef CENTER_H
 #define CENTER_H
 
-#include <cmath>
+#include <stddef.h>
 
 namespace Center
 {

@@ -1,5 +1,5 @@
-#include <cmath>
 #include "cartesian.h"
+#include <cmath>
 
 const long double Cartesian::PI                  = std::acos(-1.0L);
 const size_t      Cartesian::EARTH_RADIUS_METERS = 6371e3;
