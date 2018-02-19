@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>meetHere.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MeetHere.html">MeetHere</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#add">add</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#bestPath">bestPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#center">center</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#centerCost">centerCost</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#distance">distance</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#geometricSignificance">geometricSignificance</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#median">median</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#medianCost">medianCost</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#meetHere">meetHere</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#move">move</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#nearby">nearby</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#polynomial">polynomial</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#quickPath">quickPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#remove">remove</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#roads">roads</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#timezone">timezone</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeetHere.html#travel">travel</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Position.html">Position</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Position.html#add">add</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Position.html#bestPath">bestPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Position.html#center">center</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Position.html#centerCost">centerCost</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Position.html#geometricSignificance">geometricSignificance</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Position.html#median">median</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Position.html#medianCost">medianCost</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Position.html#move">move</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Position.html#polynomial">polynomial</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Position.html#quickPath">quickPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Position.html#remove">remove</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">meetHere.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+var __extends = (this &amp;&amp; this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array &amp;&amp; function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this &amp;&amp; this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i &lt; n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+var __awaiter = (this &amp;&amp; this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this &amp;&amp; this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] &amp; 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" &amp;&amp; (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y &amp;&amp; (t = y[op[0] &amp; 2 ? "return" : op[0] ? "throw" : "next"]) &amp;&amp; !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 &amp;&amp; t[t.length - 1]) &amp;&amp; (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 &amp;&amp; (!t || (op[1] > t[0] &amp;&amp; op[1] &lt; t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 &amp;&amp; _.label &lt; t[1]) { _.label = t[1]; t = op; break; }
+                    if (t &amp;&amp; _.label &lt; t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] &amp; 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var position_1 = require("./position");
+var maps_1 = require("@google/maps");
+var CARTESIAN = position_1.Bindings('cartesian');
+var KM = 'km';
+var MI = 'mi';
+var asciiDistanceUnits = {
+    km: 107,
+    mi: 109
+};
+/**
+ * A prototype describing a set of points on a map, with first-class Google Maps
+ * integration. Declaration of an API token is not required for use of the
+ * class, but any API requests will fail without one.
+ *
+ * ```
+ * import { MeetHere } from 'meethere';
+ *
+ * let map = new MeetHere(
+ *   [[-33, 44], [-35, 41], [-31, 43]],
+ *   MY_GOOGLE_MAPS_TOKEN
+ * );
+ * ```
+ *
+ * In general, calls to Google-esque services will return an asynchronous
+ * `Promise` from which the response can be handled.
+ *
+ * ```
+ * map.nearby() // => Promise&lt;pending>
+ * map.nearby(options, true).then(processNearbyLocations)
+ *
+ * function processNearbyLocations(error, result) {
+ *   ...
+ * }
+ * ```
+ *
+ * @class
+ * @extends Position
+ */
+var MeetHere = (function (_super) {
+    __extends(MeetHere, _super);
+    /**
+     * Creates a MeetHere on a map described by a set of locations.
+     *
+     * @see https://github.com/googlemaps/google-maps-services-js/tree/master#api-keys
+     * @constructs
+     * @param {Array} locations 2D Array of points on a map
+     * @param {string} token Google Maps API token
+     * @param {CenterOptions} [options=MeetHere.defaultCenterOptions] Whether to
+     * search for centroid obliquely
+     */
+    function MeetHere(locations, token, options) {
+        if (options === void 0) { options = {}; }
+        var _this = _super.call(this, locations, __assign({}, MeetHere.defaultCenterOptions, options)) || this;
+        _this.client = maps_1.createClient({ key: token, Promise: Promise });
+        return _this;
+    }
+    /**
+     * Returns the center of the MeetHere based on the geometric parameter.
+     *
+     * @function
+     * @private
+     * @param {boolean} geometric Whether to use geometric/median center
+     * @return {Array} The center of the MeetHere
+     */
+    MeetHere.prototype.middle = function (geometric) {
+        return geometric ? this.center : this.median;
+    };
+    Object.defineProperty(MeetHere.prototype, "meetHere", {
+        /**
+         * Same as MeetHere#center.
+         *
+         * @name MeetHere#meetHere
+         * @alias Position#center
+         * @function
+         * @return {Array} Geometric center of the Position
+         *
+         * ```
+         * let map = new MeetHere([[-33, 44], [-35, 41], [-31, 43]]);
+         * map.meetHere; // => [-32.80928, 43.39817]
+         * ```
+         */
+        get: function () {
+            return this.center;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Returns a distance matrix from each point of the MeetHere to the geometric
+     * center.
+     *
+     * @name MeetHere#distance
+     * @function
+     * @param {string} [units='km'] Units of distance to use, can be 'km' or 'mi'
+     * @param {boolean} [geometric=true] Whether to use geometric or median center
+     * @return {Object.&lt;string, Array>} A Promise that will yield distances or
+     * an error
+     *
+     * ```
+     * let map = new MeetHere([[-33, 44], [-35, 41], [-31, 43]]);
+     * map.distance; // => { origins: [[-33, 44], [-35, 41], [-31, 43]],
+     *               //      destination: [-32.80928, 43.39817],
+     *               //      distances: [37.31571, 204.49320, 127.17181] }
+     * ```
+     */
+    MeetHere.prototype.distanceMatrix = function (units, geometric) {
+        if (units === void 0) { units = KM; }
+        if (geometric === void 0) { geometric = true; }
+        return CARTESIAN.distance(this.locations, this.middle(geometric), asciiDistanceUnits[units]);
+    };
+    /**
+     * Returns places near the center of the MeetHere.
+     *
+     * @name MeetHere#nearby
+     * @see https://googlemaps.github.io/google-maps-services-js/docs/GoogleMapsClient.html#placesNearby
+     * @function
+     * @async
+     * @param {PlacesOptions} [options=MeetHere.defaultPlacesOptions] Options to
+     * apply to search request, can be any of @see
+     * @param {boolean} [geometric=true] Whether to use geometric or median center
+     * @return {Promise} A Promise that will yield nearby places or an error
+     */
+    MeetHere.prototype.nearby = function (options, geometric) {
+        if (options === void 0) { options = {}; }
+        if (geometric === void 0) { geometric = true; }
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        options['location'] = this.middle(geometric);
+                        return [4 /*yield*/, this.client
+                                .placesNearby(__assign({}, MeetHere.defaultPlacesOptions, options))
+                                .asPromise()
+                                .then(function (response) { return response.json; })
+                                .catch(function (error) { return error.json; })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Returns roads near the center of the MeetHere.
+     *
+     * @name MeetHere#roads
+     * @function
+     * @async
+     * @param {boolean} [geometric=true] Whether to use geometric or median center
+     * @return {Promise} A Promise that will yield nearby roads or an error
+     */
+    MeetHere.prototype.roads = function (geometric) {
+        if (geometric === void 0) { geometric = true; }
+        return __awaiter(this, void 0, void 0, function () {
+            var center;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        center = this.middle(geometric);
+                        return [4 /*yield*/, this.client
+                                .nearestRoads({ points: [center] })
+                                .asPromise()
+                                .then(function (response) { return response.json; })
+                                .catch(function (error) { return error.json; })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Returns the time offset data of the center of the MeetHere at some moment.
+     *
+     * @name MeetHere#timezone
+     * @see https://googlemaps.github.io/google-maps-services-js/docs/GoogleMapsClient.html#timezone
+     * @function
+     * @async
+     * @param {TimeZoneOptions} [options=MeetHere.defaultTimeZoneOptions] Options
+     * to apply to timezone request, can be any of @see
+     * @param {boolean} [geometric=true] Whether to use geometric or median center
+     * @return {Promise} A Promise that will yield time offset data or an error
+     */
+    MeetHere.prototype.timezone = function (options, geometric) {
+        if (options === void 0) { options = {}; }
+        if (geometric === void 0) { geometric = true; }
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        options['location'] = this.middle(geometric);
+                        options = __assign({}, MeetHere.defaultTimeZoneOptions, options);
+                        options['timestamp'] = options['timestamp'] || ~~(Date.now() / 1000);
+                        return [4 /*yield*/, this.client
+                                .timezone(options)
+                                .asPromise()
+                                .then(function (response) { return response.json; })
+                                .catch(function (error) { return error.json; })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Returns a matrix from each location to the center of the MeetHere with
+     * distance and time fields.
+     *
+     * @name MeetHere#travel
+     * @see https://googlemaps.github.io/google-maps-services-js/docs/GoogleMapsClient.html#distanceMatrix
+     * @function
+     * @async
+     * @param {DistanceOptions} [options=MeetHere.defaultDistanceOptions] Options
+     * to apply to distance matrix request, can be any of @see
+     * @param {boolean} [geometric=true] Whether to use geometric or median center
+     * @return {Promise} A Promise that will yield the distance matrix or an error
+     */
+    MeetHere.prototype.travel = function (options, geometric) {
+        if (options === void 0) { options = {}; }
+        if (geometric === void 0) { geometric = true; }
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        options['origins'] = this.locations;
+                        options['destinations'] = [this.middle(geometric)];
+                        return [4 /*yield*/, this.client
+                                .distanceMatrix(__assign({}, MeetHere.defaultDistanceOptions, options))
+                                .asPromise()
+                                .then(function (response) { return response.json; })
+                                .catch(function (error) { return error.json; })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Default geometric center options
+     *
+     * @constant
+     * @type {CenterOptions}
+     * @default
+     */
+    MeetHere.defaultCenterOptions = {
+        subsearch: true,
+        epsilon: 1e-4,
+        bounds: 10,
+        startIndex: 0,
+        degree: null
+    };
+    /**
+     * Default distance matrix options
+     *
+     * @constant
+     * @type {DistanceOptions}
+     * @default
+     */
+    MeetHere.defaultDistanceOptions = {};
+    /**
+     * Default nearby search options
+     *
+     * @constant
+     * @see https://googlemaps.github.io/google-maps-services-js/docs/GoogleMapsClient.html#placesNearby
+     * @type {PlacesOptions}
+     * @default
+     */
+    MeetHere.defaultPlacesOptions = {
+        language: 'English',
+        rankby: 'distance'
+    };
+    /**
+     * Default timezone search options
+     *
+     * @constant
+     * @see https://googlemaps.github.io/google-maps-services-js/docs/GoogleMapsClient.html#timezone
+     * @type {TimeZoneOptions}
+     * @default
+     */
+    MeetHere.defaultTimeZoneOptions = {
+        timestamp: null
+    };
+    return MeetHere;
+}(position_1.Position));
+exports.MeetHere = MeetHere;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Feb 19 2018 05:36:01 GMT+0000 (GMT) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
