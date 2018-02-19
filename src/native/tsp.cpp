@@ -17,7 +17,7 @@
 int TSP::nearestCity(const Util::DoubleArr2D costMatrix,
                      size_t                  len,
                      size_t                  currentCity,
-                     const bool              visited[len])
+                     const bool              visited[])
 {
   int    nearest = -1;
   size_t minCost = std::numeric_limits<size_t>::max();

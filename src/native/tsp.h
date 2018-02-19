@@ -30,7 +30,7 @@ enum VisitMethod { tsp = 't', naiveVrp = 'n' };
 int nearestCity(const Util::DoubleArr2D costMatrix,
                 size_t                  len,
                 size_t                  currentCity,
-                const bool              visited[len]);
+                const bool              visited[]);
 
 }  // namespace TSP
 
