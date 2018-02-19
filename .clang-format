@@ -1,0 +1,15 @@
+---
+BasedOnStyle: Chromium
+ColumnLimit: 80
+---
+Language: Cpp
+IndentWidth: 2
+PointerAlignment: Middle
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignTrailingComments: true
+AllowShortBlocksOnASingleLine: false
+BreakBeforeBraces: Linux
+BreakBeforeTernaryOperators: true
+---

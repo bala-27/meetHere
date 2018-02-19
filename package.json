@@ -6,7 +6,8 @@
   "gypfile": true,
   "scripts": {
     "build": "./node_modules/.bin/tsc",
-    "compile": "node-gyp configure && node-gyp build && npm test",
+    "compile":
+      "rm -rf build && node-gyp configure && node-gyp rebuild && npm test",
     "coverage":
       "./node_modules/.bin/nyc report --reporter=lcov && open coverage/lcov-report/index.html",
     "docs":
